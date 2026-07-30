@@ -1,0 +1,16 @@
+<% if (locals.errors || locals.messages) {%>
+    <div id="errors" role="alert">
+        <ul>
+            <% if (locals.errors) { %>
+                <% errors.forEach((error) => { %>
+                    <li><%= error.msg %></li>
+                <% }) %>
+            <% } %>
+            <% if (locals.messages) { %>
+                <% messages.forEach((message) => { %>
+                    <li><%= message %></li>
+                <% }) %>
+            <% } %>
+        </ul>
+    </div>
+<% } %>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Template</title>
+    <link rel="stylesheet" href="/styles/index.css" />
+  </head>
+  <body>
+    <main>
+    <% if (locals.user) { %>
+      <p><%= user.username %>, You are logged in.</p>
+      <a href="/login/log-out">Logout</a>
+    <% } else {%>
+      <p>You are not logged in.</p>
+      <a href="/login">Login</a>
+      <a href="/sign-up">Sign Up</a>
+    <% } %>
+      </main>
+  </body>
+</html>
