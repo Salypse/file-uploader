@@ -22,4 +22,8 @@ module.exports = {
       return next(error);
     }
   },
+
+  async folderPageGet(req, res, next) {
+    res.render("folder");
+  },
 };
