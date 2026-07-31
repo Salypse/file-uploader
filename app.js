@@ -13,6 +13,7 @@ const { prisma } = require("./lib/prisma");
 const indexRouter = require("./routes/indexRouter");
 const loginRouter = require("./routes/loginRouter");
 const signUpRouter = require("./routes/signUpRouter");
+const folderRouter = require("./routes/folderRouter");
 
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
@@ -49,6 +50,7 @@ app.use((req, res, next) => {
 app.use("/", indexRouter);
 app.use("/login", loginRouter);
 app.use("/sign-up", signUpRouter);
+app.use("/folder", folderRouter);
 
 //404 Not Found error handler
 app.use((req, res) => {

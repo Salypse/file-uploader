@@ -5,17 +5,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Template</title>
     <link rel="stylesheet" href="/styles/index.css" />
+
+    <script src="/utils/modal.js" defer></script>
   </head>
   <body>
     <main>
-    <% if (locals.user) { %>
-      <p><%= user.username %>, You are logged in.</p>
-      <a href="/login/log-out">Logout</a>
-    <% } else {%>
-      <p>You are not logged in.</p>
-      <a href="/login">Login</a>
-      <a href="/sign-up">Sign Up</a>
-    <% } %>
-      </main>
+      <% if (locals.user) { %>
+        <p><%= user.username %>, You are logged in.</p>
+        <a href="/login/log-out">Logout</a>
+      <% } else {%>
+        <p>You are not logged in.</p>
+        <a href="/login">Login</a>
+        <a href="/sign-up">Sign Up</a>
+      <% } %>
+
+      <% if (locals.user) { %>
+        <%- include("partials/errors") %>
+
+        <section id="file-browser">
+          <button type="button" data-target="new-folder" class="open-modal">New Folder +</button>
+
+          <% if (locals.folders.length) {%>
+            <div>
+              <h2>Files</h2>
+              <ul>
+                <% folders.forEach((folder) => { %>
+                  <li>
+                    <a href="/folders/<%= folder.id %>"><%= folder.name %></a>
+                  </li>
+                <% }) %>
+              </ul>
+              </div>
+            <%}%>
+        </section>
+      <% } %>
+    </main>
+
+      <%- include("partials/modals/newFolder") %>
   </body>
 </html>
