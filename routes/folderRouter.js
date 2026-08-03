@@ -13,4 +13,11 @@ folderRouter.get(
   folderController.folderPageGet,
 );
 
+folderRouter.delete(
+  "/:id",
+  isAuth,
+  loadUserFolder,
+  folderController.deleteFolder,
+);
+
 module.exports = folderRouter;

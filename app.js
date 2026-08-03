@@ -1,6 +1,7 @@
 require("dotenv").config();
 
 const express = require("express");
+const methodOverride = require("method-override");
 const path = require("node:path");
 const app = express();
 
@@ -21,6 +22,8 @@ app.set("view engine", "ejs");
 const assetsPath = path.join(__dirname, "public");
 app.use(express.static(assetsPath));
 app.use(express.urlencoded({ extended: true }));
+
+app.use(methodOverride("_method"));
 
 app.use(
   expressSession({

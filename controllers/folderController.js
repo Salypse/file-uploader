@@ -26,4 +26,18 @@ module.exports = {
   async folderPageGet(req, res, next) {
     res.render("folder");
   },
+
+  async deleteFolder(req, res, next) {
+    try {
+      await prisma.folder.delete({
+        where: {
+          id: res.locals.folder.id,
+        },
+      });
+
+      res.redirect("/");
+    } catch (error) {
+      return next(error);
+    }
+  },
 };

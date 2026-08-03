@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="/styles/index.css" />
 
     <script src="/utils/modal.js" defer></script>
+    <script src="/utils/deleteFolderModal.js" defer></script>
   </head>
   <body>
     <main>
@@ -32,10 +33,18 @@
                 <% folders.forEach((folder) => { %>
                   <li>
                     <a href="/folder/<%= folder.id %>"><%= folder.name %></a>
+                    <button 
+                      type="button" 
+                      data-target="delete-folder" 
+                      data-folder-id="<%= folder.id%>"
+                      data-folder-name="<%= folder.name %>" 
+                      class="open-modal delete-folder-btn"
+                    > X </button>
                   </li>
                 <% }) %>
               </ul>
               </div>
+              <%- include("partials/modals/deleteFolder") %>
             <%}%>
         </section>
       <% } %>
