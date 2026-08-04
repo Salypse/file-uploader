@@ -27,6 +27,17 @@ module.exports = {
     res.render("folder");
   },
 
+  async updateFolder(req, res, next) {
+    try {
+      await prisma.folder.update({
+        where: {},
+        data: {},
+      });
+    } catch (error) {
+      return next(error);
+    }
+  },
+
   async deleteFolder(req, res, next) {
     try {
       await prisma.folder.delete({
