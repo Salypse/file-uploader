@@ -19,40 +19,7 @@
       <% } %>
 
       <% if (locals.user) { %>
-        <section id="file-browser">
-          <button type="button" data-target="new-folder" class="open-modal">New Folder +</button>
-
-          <% if (locals.folders.length) {%>
-            <div>
-              <h2>Files</h2>
-              <ul>
-                <% folders.forEach((folder) => { %>
-                <li>
-                  <a href="/folder/<%= folder.id %>"><%= folder.name %></a>
-
-                  <button 
-                    type="button"
-                    data-target="update-folder"
-                    data-folder-id="<%= folder.id%>" 
-                    data-folder-name="<%= folder.name %>"
-                    class="open-modal update-folder-btn"
-                  > Rename </button>
-
-                  <button 
-                    type="button" 
-                    data-target="delete-folder" 
-                    data-folder-id="<%= folder.id%>" 
-                    data-folder-name="<%= folder.name %>" 
-                    class="open-modal delete-folder-btn"
-                  > X </button>
-                </li>
-                <% }) %>
-              </ul>
-            </div>
-          <%}%>
-        </section>
-
-        <%- include("partials/dialogGroups/folderDialogs.ejs") %>
+          <%- include("./partials/fileBrowser") %>
       <% } %>
     </main>
   </body>
