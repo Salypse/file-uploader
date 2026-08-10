@@ -4,7 +4,12 @@ const folderController = require("../controllers/folderController");
 const { isAuth, loadUserFolder } = require("../public/utils/authMiddleware");
 const validateFolder = require("../validators/folderValidator");
 
-folderRouter.post("/", isAuth, validateFolder, folderController.newFolderPost);
+folderRouter.post(
+  "{/:id}",
+  isAuth,
+  validateFolder,
+  folderController.newFolderPost,
+);
 
 folderRouter.get(
   "/:id",

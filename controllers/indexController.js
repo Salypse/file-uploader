@@ -4,7 +4,7 @@ exports.indexGet = async (req, res, next) => {
   try {
     const folders = req.user
       ? await prisma.folder.findMany({
-          where: { userId: req.user.id },
+          where: { userId: req.user.id, parentId: null },
         })
       : [];
 

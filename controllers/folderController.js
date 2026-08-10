@@ -13,7 +13,15 @@ module.exports = {
       delete req.session.openDialog;
       delete req.session.updateFolder;
 
+      //Get sub folders
+      const folders = await prisma.folder.findMany({
+        where: {
+          parentId: Number(req.params.id),
+        },
+      });
+
       res.render("folder", {
+        folders: folders,
         errors: errors,
         openDialog: openDialog,
         updateFolder: updateFolder,
@@ -29,13 +37,21 @@ module.exports = {
     try {
       if (!errors.isEmpty()) {
         req.session.errors = errors.array();
-        return res.redirect("/");
+        req.session.openDialog = "new-folder";
+        return req.session.save((error) => {
+          if (error) {
+            return next(error);
+          }
+
+          return res.redirect(req.get("referer") || "/");
+        });
       }
 
       const folder = await prisma.folder.create({
         data: {
           name: req.body.folderName,
           userId: req.user.id,
+          parentId: Number(req.params.id) || null,
         },
       });
       return res.redirect(`/folder/${folder.id}`);
@@ -81,9 +97,12 @@ module.exports = {
 
   async deleteFolder(req, res, next) {
     try {
-      await prisma.folder.delete({
+      await prisma.folder.deleteMany({
         where: {
-          id: res.locals.folder.id,
+          OR: [
+            { id: res.locals.folder.id },
+            { parentId: res.locals.folder.id },
+          ],
         },
       });
 
