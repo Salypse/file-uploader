@@ -13,6 +13,14 @@ folderRouter.get(
   folderController.folderPageGet,
 );
 
+folderRouter.patch(
+  "/:id",
+  isAuth,
+  validateFolder,
+  loadUserFolder,
+  folderController.updateFolderName,
+);
+
 folderRouter.delete(
   "/:id",
   isAuth,

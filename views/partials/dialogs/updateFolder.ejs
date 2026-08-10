@@ -1,0 +1,15 @@
+<dialog class="modal" id="update-folder">
+    <button class="close-modal">X</button>
+
+    <h2>Rename Folder</h2>
+
+    <%- include("../errors") %>
+
+    <form action="/folder/<%= updateFolder?.id || ""%>?_method=PATCH" method="POST"  id="update-form">
+        <p id="action-text"></p>
+        <label for="update-folder-name">Name</label>
+        <input type="text" id="update-folder-name" name="folderName" value="<%= updateFolder?.name || ""%>">
+
+        <button type="submit">Save</button>
+    </form>
+</dialog>

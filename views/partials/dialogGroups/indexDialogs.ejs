@@ -1,5 +1,13 @@
 <script src="/utils/dialogs/dialog.js" defer></script>
 <script src="/utils/dialogs/deleteFolderDialog.js" defer></script>
+<script src="/utils/dialogs/updateFolder.js" defer></script>
 
 <%- include("../dialogs/newFolder") %> 
 <%- include("../dialogs/deleteFolder") %>
+<%- include("../dialogs/updateFolder")%>
+
+<% if (locals.openDialog) { %>
+    <script>
+        document.getElementById(`<%= openDialog %>`).showModal()
+    </script>
+<% } %>

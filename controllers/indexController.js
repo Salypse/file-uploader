@@ -8,12 +8,19 @@ exports.indexGet = async (req, res, next) => {
         })
       : [];
 
-    const errors = req.session.errors || [];
-    req.session.errors = [];
+    const errors = req.session.errors;
+    const openDialog = req.session.openDialog;
+    const updateFolder = req.session.updateFolder;
+
+    delete req.session.errors;
+    delete req.session.openDialog;
+    delete req.session.updateFolder;
 
     res.render("index", {
       folders: folders,
       errors: errors,
+      openDialog: openDialog,
+      updateFolder: updateFolder,
     });
   } catch (error) {
     return next(error);

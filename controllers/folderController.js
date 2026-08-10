@@ -27,12 +27,36 @@ module.exports = {
     res.render("folder");
   },
 
-  async updateFolder(req, res, next) {
+  async updateFolderName(req, res, next) {
     try {
+      const errors = validationResult(req);
+
+      if (!errors.isEmpty()) {
+        req.session.errors = errors.array();
+        req.session.openDialog = "update-folder";
+        req.session.updateFolder = {
+          id: res.locals.folder.id,
+          name: req.body.folderName,
+        };
+
+        return req.session.save((error) => {
+          if (error) {
+            return next(error);
+          }
+
+          return res.redirect("/");
+        });
+      }
+
       await prisma.folder.update({
-        where: {},
-        data: {},
+        where: {
+          id: res.locals.folder.id,
+        },
+        data: {
+          name: req.body.folderName,
+        },
       });
+      res.redirect("/");
     } catch (error) {
       return next(error);
     }
