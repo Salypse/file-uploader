@@ -4,7 +4,7 @@ const { prisma } = require("../lib/prisma");
 module.exports = {
   async folderPageGet(req, res, next) {
     try {
-      // Form error handling
+      // Get possible error info for dialogs
       const errors = req.session.errors;
       const openDialog = req.session.openDialog;
       const updateFolder = req.session.updateFolder;
@@ -106,7 +106,7 @@ module.exports = {
         },
       });
 
-      res.redirect("/");
+      res.redirect(req.get("referer") || "/");
     } catch (error) {
       return next(error);
     }

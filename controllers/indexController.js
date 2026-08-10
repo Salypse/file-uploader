@@ -8,6 +8,7 @@ exports.indexGet = async (req, res, next) => {
         })
       : [];
 
+    // Get possible error info for dialogs
     const errors = req.session.errors;
     const openDialog = req.session.openDialog;
     const updateFolder = req.session.updateFolder;
