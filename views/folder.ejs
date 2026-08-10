@@ -7,6 +7,20 @@
   </head>
   <body>
     <a href="/">Home</a>
-    <main><%= folder.name %></main>
+    <main>
+      <div id="folder-header">
+        <h1><%= folder.name %></h1>
+
+        <button 
+          type="button"
+          data-target="update-folder"
+          data-folder-id="<%= folder.id%>" 
+          data-folder-name="<%= folder.name %>"
+          class="open-modal update-folder-btn"
+        > Rename </button>
+      </div>
+
+      <%- include("partials/dialogGroups/folderDialogs.ejs") %>
+    </main>
   </body>
 </html>

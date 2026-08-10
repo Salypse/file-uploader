@@ -2,6 +2,27 @@ const { validationResult } = require("express-validator");
 const { prisma } = require("../lib/prisma");
 
 module.exports = {
+  async folderPageGet(req, res, next) {
+    try {
+      // Form error handling
+      const errors = req.session.errors;
+      const openDialog = req.session.openDialog;
+      const updateFolder = req.session.updateFolder;
+
+      delete req.session.errors;
+      delete req.session.openDialog;
+      delete req.session.updateFolder;
+
+      res.render("folder", {
+        errors: errors,
+        openDialog: openDialog,
+        updateFolder: updateFolder,
+      });
+    } catch (error) {
+      return next(error);
+    }
+  },
+
   async newFolderPost(req, res, next) {
     const errors = validationResult(req);
 
@@ -23,10 +44,6 @@ module.exports = {
     }
   },
 
-  async folderPageGet(req, res, next) {
-    res.render("folder");
-  },
-
   async updateFolderName(req, res, next) {
     try {
       const errors = validationResult(req);
@@ -44,7 +61,7 @@ module.exports = {
             return next(error);
           }
 
-          return res.redirect("/");
+          return res.redirect(req.get("referer") || "/");
         });
       }
 
@@ -56,7 +73,7 @@ module.exports = {
           name: req.body.folderName,
         },
       });
-      res.redirect("/");
+      res.redirect(req.get("referer") || "/");
     } catch (error) {
       return next(error);
     }
