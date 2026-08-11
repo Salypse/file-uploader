@@ -15,11 +15,12 @@ model User {
 }
 
 model Folder {
-  id       Int    @id @default(autoincrement())
-  name     String
-  user     User   @relation(fields: [userId], references: [id])
-  userId   Int
-  parentId Int?
+  id        Int      @id @default(autoincrement())
+  name      String
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+  parentId  Int?
+  createdAt DateTime @default(now())
 
   parent   Folder?  @relation("FolderTree", fields: [parentId], references: [id], onDelete: Cascade)
   children Folder[] @relation("FolderTree")

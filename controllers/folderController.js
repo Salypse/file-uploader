@@ -18,6 +18,9 @@ module.exports = {
         where: {
           parentId: Number(req.params.id),
         },
+        orderBy: {
+          createdAt: "asc",
+        },
       });
 
       res.render("folder", {

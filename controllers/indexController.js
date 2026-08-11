@@ -5,6 +5,7 @@ exports.indexGet = async (req, res, next) => {
     const folders = req.user
       ? await prisma.folder.findMany({
           where: { userId: req.user.id, parentId: null },
+          orderBy: { createdAt: "asc" },
         })
       : [];
 
