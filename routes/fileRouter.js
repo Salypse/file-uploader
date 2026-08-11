@@ -6,6 +6,10 @@ const multer = require("multer");
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
-fileRouter.post("/", upload.array("uploadFiles"), fileController.newFilesPost);
+fileRouter.post(
+  "{/:id}",
+  upload.array("uploadFiles"),
+  fileController.newFilesPost,
+);
 
 module.exports = fileRouter;

@@ -27,9 +27,10 @@ model Folder {
 }
 
 model File {
-  id   Int    @id @default(autoincrement())
-  name String
-  path String
+  id       Int    @id @default(autoincrement())
+  name     String
+  path     String
+  parentId Int?
 }
 
 model Session {

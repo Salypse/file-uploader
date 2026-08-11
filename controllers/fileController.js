@@ -17,7 +17,8 @@ module.exports = {
         await prisma.file.create({
           data: {
             name: file.originalname,
-            path: data.path,
+            path: "data.path",
+            parentId: Number(req.params.id) || null,
           },
         });
       } catch (error) {
