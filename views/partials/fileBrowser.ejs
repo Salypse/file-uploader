@@ -1,6 +1,13 @@
 <section id="file-browser">
     <button type="button" data-target="new-folder" class="open-modal">New Folder +</button>
 
+    <form action="/file" method="post" enctype="multipart/form-data">
+      <label for="upload_files">Upload Files</label>
+      <input type="file" id="upload_files" name="uploadFiles" multiple required />
+
+      <button type="submit">Upload</button>
+    </form>
+
     <% if (locals.folders.length) {%>
         <div>
             <h2>Files</h2>
