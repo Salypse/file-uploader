@@ -10,6 +10,7 @@
     <main>
     <button type="button" data-target="new-folder" class="open-modal">New Folder +</button>
       <div id="folder-header">
+        <a href="<%= locals.folder.parentId ? `/folder/${locals.folder.parentId}` : "/"%>">Back</a>
         <h1><%= folder.name %></h1>
 
         <button 
