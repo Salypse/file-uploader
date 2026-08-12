@@ -2,13 +2,27 @@ const { prisma } = require("../lib/prisma");
 
 exports.indexGet = async (req, res, next) => {
   try {
-    const folders = req.user
-      ? await prisma.folder.findMany({
-          where: { userId: req.user.id, parentId: null },
-          orderBy: { createdAt: "asc" },
-        })
-      : [];
+    let content = [];
 
+    if (req.user) {
+      const folders = await prisma.folder.findMany({
+        where: {
+          parentId: null,
+        },
+      });
+
+      const files = await prisma.file.findMany({
+        where: {
+          parentId: null,
+        },
+      });
+
+      // Merge folder and files, sort by createdAt value
+      content = [
+        ...folders.map((folder) => ({ ...folder, type: "folder" })),
+        ...files.map((file) => ({ ...file, type: "file" })),
+      ].sort((a, b) => a.createdAt - b.createdAt);
+    }
     // Get possible error info for dialogs
     const errors = req.session.errors;
     const openDialog = req.session.openDialog;
@@ -19,7 +33,7 @@ exports.indexGet = async (req, res, next) => {
     delete req.session.updateFolder;
 
     res.render("index", {
-      folders: folders,
+      content: content,
       errors: errors,
       openDialog: openDialog,
       updateFolder: updateFolder,

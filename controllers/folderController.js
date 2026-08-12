@@ -13,18 +13,26 @@ module.exports = {
       delete req.session.openDialog;
       delete req.session.updateFolder;
 
-      //Get sub folders
       const folders = await prisma.folder.findMany({
         where: {
           parentId: Number(req.params.id),
         },
-        orderBy: {
-          createdAt: "asc",
+      });
+
+      const files = await prisma.file.findMany({
+        where: {
+          parentId: Number(req.params.id),
         },
       });
 
+      // Merge folders and files with parentId of current folder
+      const content = [
+        ...folders.map((folder) => ({ ...folder, type: "folder" })),
+        ...files.map((file) => ({ ...file, type: "file" })),
+      ].sort((a, b) => a.createdAt - b.createdAt);
+
       res.render("folder", {
-        folders: folders,
+        content: content,
         errors: errors,
         openDialog: openDialog,
         updateFolder: updateFolder,

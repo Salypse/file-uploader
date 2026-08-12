@@ -8,33 +8,38 @@
       <button type="submit">Upload</button>
     </form>
 
-    <% if (locals.folders.length) {%>
-        <div>
-            <h2>Files</h2>
-            <ul>
-                <% folders.forEach((folder) => { %>
-                <li>
-                  <a href="/folder/<%= folder.id %>"><%= folder.name %></a>
+    <% if (locals.content.length) {%>
+        <section id="content">
+          <% content.forEach((item) => { %>
+            <div>
+              <% if (item.type === "folder") { %>
+                <%# Folder HTML %>
 
-                  <button 
+                <a href="/folder/<%= item.id %>"><%= item.name %></a>
+
+                <button 
                     type="button"
                     data-target="update-folder"
-                    data-folder-id="<%= folder.id%>" 
-                    data-folder-name="<%= folder.name %>"
+                    data-folder-id="<%= item.id%>" 
+                    data-folder-name="<%= item.name %>"
                     class="open-modal update-folder-btn"
                   > Rename </button>
 
                   <button 
                     type="button" 
                     data-target="delete-folder" 
-                    data-folder-id="<%= folder.id%>" 
-                    data-folder-name="<%= folder.name %>" 
+                    data-folder-id="<%= item.id%>" 
+                    data-folder-name="<%= item.name %>" 
                     class="open-modal delete-folder-btn"
                   > X </button>
-                </li>
-                <% }) %>
-            </ul>
-        </div>
+              <% } else if (item.type === "file") { %>
+                <%# File HTML%>
+
+                <strong><%= item.name %></strong>
+              <% } %>
+            </div>
+          <% })%>
+        </section>
     <%}%>
 
     <%- include("./dialogGroups/folderDialogs.ejs") %>
