@@ -7,7 +7,10 @@ module.exports = {
       try {
         const { data, error } = await supabase.storage
           .from("files")
-          .upload(file.originalname, file.buffer);
+          .upload(
+            `/${res.locals.user.id}${req.params.id ? `/${req.params.id}` : ""}/${file.originalname}`,
+            file.buffer,
+          );
 
         if (error) {
           return next(error);
@@ -17,7 +20,7 @@ module.exports = {
         await prisma.file.create({
           data: {
             name: file.originalname,
-            path: "data.path",
+            path: data.path,
             parentId: Number(req.params.id) || null,
           },
         });
