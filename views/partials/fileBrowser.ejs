@@ -19,18 +19,20 @@
 
                 <button 
                     type="button"
-                    data-target="update-folder"
-                    data-folder-id="<%= item.id%>" 
-                    data-folder-name="<%= item.name %>"
-                    class="open-modal update-folder-btn"
+                    data-target="update-content"
+                    data-content-id="<%= item.id%>" 
+                    data-content-name="<%= item.name %>"
+                    data-type="folder"
+                    class="open-modal update-content-name-btn"
                   > Rename </button>
 
                   <button 
                     type="button" 
-                    data-target="delete-folder" 
-                    data-folder-id="<%= item.id%>" 
-                    data-folder-name="<%= item.name %>" 
-                    class="open-modal delete-folder-btn"
+                    data-target="delete-content" 
+                    data-content-id="<%= item.id%>" 
+                    data-content-name="<%= item.name %>"
+                    data-type="folder"
+                    class="open-modal delete-content-btn"
                   > X </button>
               <% } else if (item.type === "file") { %>
                 <%# File HTML%>
@@ -42,5 +44,5 @@
         </section>
     <%}%>
 
-    <%- include("./dialogGroups/folderDialogs.ejs") %>
+    <%- include("./dialogGroups/contentDialogs.ejs") %>
 </section>

@@ -1,10 +1,10 @@
 <script src="/utils/dialogs/dialog.js" defer></script>
-<script src="/utils/dialogs/deleteFolderDialog.js" defer></script>
-<script src="/utils/dialogs/updateFolder.js" defer></script>
+<script src="/utils/dialogs/deleteContent.js" defer></script>
+<script src="/utils/dialogs/updateContent.js" defer></script>
 
 <%- include("../dialogs/newFolder") %> 
-<%- include("../dialogs/deleteFolder") %>
-<%- include("../dialogs/updateFolder")%>
+<%- include("../dialogs/deleteContent") %>
+<%- include("../dialogs/updateContentName")%>
 
 <% if (locals.openDialog) { %>
     <script>

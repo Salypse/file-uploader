@@ -79,7 +79,7 @@ module.exports = {
 
       if (!errors.isEmpty()) {
         req.session.errors = errors.array();
-        req.session.openDialog = "update-folder";
+        req.session.openDialog = "update-content";
         req.session.updateFolder = {
           id: res.locals.folder.id,
           name: req.body.folderName,
