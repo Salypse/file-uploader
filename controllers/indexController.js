@@ -8,12 +8,14 @@ exports.indexGet = async (req, res, next) => {
       const folders = await prisma.folder.findMany({
         where: {
           parentId: null,
+          userId: req.user.id,
         },
       });
 
       const files = await prisma.file.findMany({
         where: {
           parentId: null,
+          userId: req.user.id,
         },
       });
 

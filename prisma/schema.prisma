@@ -12,6 +12,7 @@ model User {
   username String   @unique
   password String
   folders  Folder[]
+  files    File[]
 }
 
 model Folder {
@@ -29,6 +30,8 @@ model Folder {
 model File {
   id        Int      @id @default(autoincrement())
   name      String
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
   path      String
   parentId  Int?
   createdAt DateTime @default(now())

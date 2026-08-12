@@ -8,7 +8,7 @@ module.exports = {
         const { data, error } = await supabase.storage
           .from("files")
           .upload(
-            `/${res.locals.user.id}${req.params.id ? `/${req.params.id}` : ""}/${file.originalname}`,
+            `/${req.user.id}${req.params.id ? `/${req.params.id}` : ""}/${file.originalname}`,
             file.buffer,
           );
 
@@ -22,6 +22,7 @@ module.exports = {
             name: file.originalname,
             path: data.path,
             parentId: Number(req.params.id) || null,
+            userId: req.user.id,
           },
         });
       } catch (error) {

@@ -16,12 +16,14 @@ module.exports = {
       const folders = await prisma.folder.findMany({
         where: {
           parentId: Number(req.params.id),
+          userId: req.user.id,
         },
       });
 
       const files = await prisma.file.findMany({
         where: {
           parentId: Number(req.params.id),
+          userId: req.user.id,
         },
       });
 
