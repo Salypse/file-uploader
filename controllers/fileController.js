@@ -29,6 +29,6 @@ module.exports = {
         return next(error);
       }
     }
-    res.redirect("/");
+    res.redirect(req.get("referer") || "/");
   },
 };
