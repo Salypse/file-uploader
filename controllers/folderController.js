@@ -7,11 +7,11 @@ module.exports = {
       // Get possible error info for dialogs
       const errors = req.session.errors;
       const openDialog = req.session.openDialog;
-      const updateFolder = req.session.updateFolder;
+      const updateItem = req.session.updateItem;
 
       delete req.session.errors;
       delete req.session.openDialog;
-      delete req.session.updateFolder;
+      delete req.session.updateItem;
 
       const folders = await prisma.folder.findMany({
         where: {
@@ -37,7 +37,7 @@ module.exports = {
         content: content,
         errors: errors,
         openDialog: openDialog,
-        updateFolder: updateFolder,
+        updateItem: updateItem,
       });
     } catch (error) {
       return next(error);
@@ -62,7 +62,7 @@ module.exports = {
 
       const folder = await prisma.folder.create({
         data: {
-          name: req.body.folderName,
+          name: req.body.contentName,
           userId: req.user.id,
           parentId: Number(req.params.id) || null,
         },
@@ -79,10 +79,11 @@ module.exports = {
 
       if (!errors.isEmpty()) {
         req.session.errors = errors.array();
-        req.session.openDialog = "update-content";
-        req.session.updateFolder = {
+        req.session.openDialog = "update-name";
+        req.session.updateItem = {
           id: res.locals.folder.id,
-          name: req.body.folderName,
+          name: req.body.contentName,
+          type: "folder",
         };
 
         return req.session.save((error) => {
@@ -99,7 +100,7 @@ module.exports = {
           id: res.locals.folder.id,
         },
         data: {
-          name: req.body.folderName,
+          name: req.body.contentName,
         },
       });
       res.redirect(req.get("referer") || "/");

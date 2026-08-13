@@ -19,11 +19,11 @@
 
                 <button 
                     type="button"
-                    data-target="update-content"
+                    data-target="update-name"
                     data-content-id="<%= item.id%>" 
                     data-content-name="<%= item.name %>"
                     data-type="folder"
-                    class="open-modal update-content-name-btn"
+                    class="open-modal update-name-btn"
                   > Rename </button>
 
                   <button 
@@ -35,7 +35,7 @@
                     class="open-modal delete-content-btn"
                   > X </button>
               <% } else if (item.type === "file") { %>
-                <%# File HTML%>
+                <%# File HTML%> 
 
                 <strong><%= item.name %></strong>
               <% } %>

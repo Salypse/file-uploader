@@ -1,0 +1,15 @@
+<dialog class="modal" id="update-name">
+    <button class="close-modal">X</button>
+
+    <h2 id="update-name-header">Rename <%= updateItem?.type[0].toUpperCase() + updateItem?.type.slice(1) %></h2>
+
+    <%- include("../errors") %>
+
+    <form action="/<%= updateItem?.type %>/<%= updateItem?.id || ""%>?_method=PATCH" method="POST"  id="update-form">
+        <p id="action-text"></p>
+        <label for="update-mame-input">Name</label>
+        <input type="text" id="update-name-input" name="contentName" value="<%= updateItem?.name || ""%>">
+
+        <button type="submit">Save</button>
+    </form>
+</dialog>

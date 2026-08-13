@@ -1,12 +1,12 @@
 const { body } = require("express-validator");
 
 const validateFolder = [
-  body("folderName")
+  body("contentName")
     .trim()
     .notEmpty()
-    .withMessage("Folder name is required")
+    .withMessage("Name is required")
     .isLength({ max: 255 })
-    .withMessage("Folder name must be 255 characters or less"),
+    .withMessage("Name must be 255 characters or less"),
 ];
 
 module.exports = validateFolder;
