@@ -31,4 +31,25 @@ module.exports = {
     }
     res.redirect(req.get("referer") || "/");
   },
+
+  async deleteFile(req, res, next) {
+    try {
+      // Subpase file
+      const response = await supabase.storage
+        .from("files")
+        .remove(req.body.filePath);
+
+      // Db file reference
+      await prisma.file.delete({
+        where: {
+          id: Number(req.body.fileId),
+          userId: req.user.id,
+        },
+      });
+
+      res.redirect(req.get("referer") || "/");
+    } catch (error) {
+      return next(error);
+    }
+  },
 };

@@ -38,6 +38,16 @@
                 <%# File HTML%> 
 
                 <strong><%= item.name %></strong>
+
+                <button 
+                    type="button" 
+                    data-target="delete-content" 
+                    data-content-id="<%= item.id%>" 
+                    data-content-name="<%= item.name %>"
+                    data-type="file"
+                    data-file-path="<%= item.path %>"
+                    class="open-modal delete-content-btn"
+                  > X </button>
               <% } %>
             </div>
           <% })%>
