@@ -123,7 +123,11 @@ module.exports = {
         },
       });
 
-      res.redirect(req.get("referer") || "/");
+      res.redirect(
+        res.locals.folder.parentId
+          ? `/folder/${res.locals.folder.parentId}`
+          : "/",
+      );
     } catch (error) {
       return next(error);
     }

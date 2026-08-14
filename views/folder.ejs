@@ -15,11 +15,21 @@
 
         <button 
           type="button"
-          data-target="update-folder"
-          data-folder-id="<%= folder.id%>" 
-          data-folder-name="<%= folder.name %>"
-          class="open-modal update-folder-btn"
+          data-target="update-name"
+          data-content-id="<%= folder.id%>" 
+          data-content-name="<%= folder.name %>"
+          data-type="folder"
+          class="open-modal update-name-btn"
         > Rename </button>
+
+        <button 
+          type="button" 
+          data-target="delete-content" 
+          data-content-id="<%= folder.id%>" 
+          data-content-name="<%= folder.name %>"
+          data-type="folder"
+          class="open-modal delete-content-btn"
+        > X </button>
       </div>
 
       <%- include("./partials/fileBrowser") %>
