@@ -23,8 +23,9 @@ model Folder {
   parentId  Int?
   createdAt DateTime @default(now())
 
-  parent   Folder?  @relation("FolderTree", fields: [parentId], references: [id], onDelete: Cascade)
-  children Folder[] @relation("FolderTree")
+  parentFolder Folder?  @relation("FolderTree", fields: [parentId], references: [id], onDelete: Cascade)
+  folders      Folder[] @relation("FolderTree")
+  files        File[]
 }
 
 model File {
@@ -35,6 +36,8 @@ model File {
   path      String
   parentId  Int?
   createdAt DateTime @default(now())
+
+  parentFolder Folder? @relation(fields: [parentId], references: [id], onDelete: Cascade)
 }
 
 model Session {

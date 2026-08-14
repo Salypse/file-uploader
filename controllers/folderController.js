@@ -1,5 +1,7 @@
 const { validationResult } = require("express-validator");
 const { prisma } = require("../lib/prisma");
+const supabase = require("../config/supabase");
+const { deleteSupabaseRefs } = require("../public/utils/deleteSupabaseRefs");
 
 module.exports = {
   async folderPageGet(req, res, next) {
@@ -111,12 +113,13 @@ module.exports = {
 
   async deleteFolder(req, res, next) {
     try {
-      await prisma.folder.deleteMany({
+      // Delete supabase folder and its sub folders references
+      await deleteSupabaseRefs(res.locals.folder.id, req.user.id);
+
+      // Delete db folder reference (Cascade delete all children folders and files)
+      await prisma.folder.delete({
         where: {
-          OR: [
-            { id: res.locals.folder.id },
-            { parentId: res.locals.folder.id },
-          ],
+          id: res.locals.folder.id,
         },
       });
 
