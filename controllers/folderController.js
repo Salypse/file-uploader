@@ -48,6 +48,7 @@ module.exports = {
 
   async newFolderPost(req, res, next) {
     const errors = validationResult(req);
+    console.log(req.params);
 
     try {
       if (!errors.isEmpty()) {
