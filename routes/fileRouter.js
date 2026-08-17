@@ -13,6 +13,12 @@ fileRouter.post(
   fileController.newFilesPost,
 );
 
+fileRouter.get(
+  "/download/:userId{/:folderId}/:fileName",
+  isAuth,
+  fileController.downloadFile,
+);
+
 fileRouter.delete("/:id", isAuth, fileController.deleteFile);
 
 module.exports = fileRouter;

@@ -32,6 +32,31 @@ module.exports = {
     res.redirect(req.get("referer") || "/");
   },
 
+  async downloadFile(req, res, next) {
+    try {
+      const { data, error } = await supabase.storage
+        .from("files")
+        .download(
+          `${req.user.id}${req.params.folderId ? `/${req.params.folderId}` : ""}/${req.params.fileName}`,
+        );
+
+      if (error) {
+        return next(error);
+      }
+      const buffer = Buffer.from(await data.arrayBuffer());
+
+      res.set(
+        "Content-Disposition",
+        `attachment; filename="${req.params.fileName}"`,
+      );
+      res.set("Content-Type", data.type);
+
+      res.send(buffer);
+    } catch (error) {
+      return next(error);
+    }
+  },
+
   async deleteFile(req, res, next) {
     try {
       // Subpase file

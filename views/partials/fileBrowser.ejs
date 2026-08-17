@@ -39,6 +39,10 @@
 
                 <strong><%= item.name %></strong>
 
+                <form action="/file/download/<%= item.path %>" method="GET">
+                  <button type="submit">Download</button>
+                </form>
+
                 <button 
                     type="button" 
                     data-target="delete-content" 
