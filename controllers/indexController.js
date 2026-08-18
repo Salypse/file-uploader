@@ -27,16 +27,19 @@ exports.indexGet = async (req, res, next) => {
     }
     // Get possible error info for dialogs
     const errors = req.session.errors;
+    const errorMessage = req.session.errorMessage;
     const openDialog = req.session.openDialog;
     const updateItem = req.session.updateItem;
 
     delete req.session.errors;
+    delete req.session.errorMessage;
     delete req.session.openDialog;
     delete req.session.updateItem;
 
     res.render("index", {
       content: content,
       errors: errors,
+      errorMessage: errorMessage,
       openDialog: openDialog,
       updateItem: updateItem,
     });

@@ -8,10 +8,12 @@ module.exports = {
     try {
       // Get possible error info for dialogs
       const errors = req.session.errors;
+      const errorMessage = req.session.errorMessage;
       const openDialog = req.session.openDialog;
       const updateItem = req.session.updateItem;
 
       delete req.session.errors;
+      delete req.session.errorMessage;
       delete req.session.openDialog;
       delete req.session.updateItem;
 
@@ -38,6 +40,7 @@ module.exports = {
       res.render("folder", {
         content: content,
         errors: errors,
+        errorMessage: errorMessage,
         openDialog: openDialog,
         updateItem: updateItem,
       });
@@ -48,7 +51,6 @@ module.exports = {
 
   async newFolderPost(req, res, next) {
     const errors = validationResult(req);
-    console.log(req.params);
 
     try {
       if (!errors.isEmpty()) {

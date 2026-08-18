@@ -2,7 +2,9 @@ const openModalBtns = document.querySelectorAll(".open-modal");
 const closeModalBtns = document.querySelectorAll(".close-modal");
 
 window.addEventListener("pageshow", (event) => {
-  if (event.persisted) {
+  const navigation = performance.getEntriesByType("navigation")[0];
+
+  if (navigation.type === "back_forward") {
     window.location.reload();
   }
 });

@@ -13,6 +13,13 @@ module.exports = {
           );
 
         if (error) {
+          if (error.statusCode === "409") {
+            req.session.openDialog = "error";
+            req.session.errorMessage =
+              "File(s) already exists at this location.";
+
+            return res.redirect(req.get("referer") || "/");
+          }
           return next(error);
         }
 
