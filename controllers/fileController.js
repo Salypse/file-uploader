@@ -3,41 +3,45 @@ const { prisma } = require("../lib/prisma");
 
 module.exports = {
   async newFilesPost(req, res, next) {
+    // Check uploaded files for errors before uploading all files
+    for (const file of req.files) {
+      // Local validation
+      if (file.size > 50 * 1024 * 1024) {
+        req.session.openDialog = "error";
+        req.session.errorMessage = "File size cannot be greater than 50mb.";
+
+        return req.session.save((error) => {
+          if (error) {
+            return next(error);
+          }
+          return res.redirect(req.get("referer") || "/");
+        });
+      }
+
+      const existingFile = await prisma.file.findFirst({
+        where: {
+          name: file.originalname,
+          parentId: Number(req.params.id),
+          userId: req.user.id,
+        },
+      });
+
+      if (existingFile) {
+        req.session.openDialog = "error";
+        req.session.errorMessage = "File already exists at this location.";
+
+        return req.session.save((error) => {
+          if (error) {
+            return next(error);
+          }
+          return res.redirect(req.get("referer") || "/");
+        });
+      }
+    }
+
+    // Upload each file
     for (const file of req.files) {
       try {
-        // Local validation
-        if (file.size > 50 * 1024 * 1024) {
-          req.session.openDialog = "error";
-          req.session.errorMessage = "File size cannot be greater than 50mb.";
-
-          return req.session.save((error) => {
-            if (error) {
-              return next(error);
-            }
-            return res.redirect(req.get("referer") || "/");
-          });
-        }
-
-        const existingFile = await prisma.file.findFirst({
-          where: {
-            name: file.originalname,
-            parentId: Number(req.params.id),
-            userId: req.user.id,
-          },
-        });
-
-        if (existingFile) {
-          req.session.openDialog = "error";
-          req.session.errorMessage = "File already exists at this location.";
-
-          return req.session.save((error) => {
-            if (error) {
-              return next(error);
-            }
-            return res.redirect(req.get("referer") || "/");
-          });
-        }
-
         // Upload file data to supabase
         const storageName = crypto.randomUUID();
         const { data, error } = await supabase.storage
