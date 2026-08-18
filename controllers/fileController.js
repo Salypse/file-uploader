@@ -18,29 +18,36 @@ module.exports = {
           });
         }
 
+        const existingFile = await prisma.file.findFirst({
+          where: {
+            name: file.originalname,
+            parentId: Number(req.params.id),
+            userId: req.user.id,
+          },
+        });
+
+        if (existingFile) {
+          req.session.openDialog = "error";
+          req.session.errorMessage = "File already exists at this location.";
+
+          return req.session.save((error) => {
+            if (error) {
+              return next(error);
+            }
+            return res.redirect(req.get("referer") || "/");
+          });
+        }
+
         // Upload file data to supabase
+        const storageName = crypto.randomUUID();
         const { data, error } = await supabase.storage
           .from("files")
           .upload(
-            `/${req.user.id}${req.params.id ? `/${req.params.id}` : ""}/${file.originalname}`,
+            `/${req.user.id}${req.params.id ? `/${req.params.id}` : ""}/${storageName}`,
             file.buffer,
           );
 
         if (error) {
-          // Supabase validation
-          if (error.statusCode === "409") {
-            req.session.openDialog = "error";
-            req.session.errorMessage =
-              "File(s) already exists at this location.";
-
-            return req.session.save((error) => {
-              if (error) {
-                return next(error);
-              }
-              return res.redirect(req.get("referer") || "/");
-            });
-          }
-
           return next(error);
         }
 
@@ -62,23 +69,40 @@ module.exports = {
 
   async downloadFile(req, res, next) {
     try {
+      const filePath = `${req.user.id}${req.params.folderId ? `/${req.params.folderId}` : ""}/${req.params.fileName}`;
+      // Verify File
+      const file = await prisma.file.findFirst({
+        where: {
+          userId: req.user.id,
+          parentId: Number(req.params.folderId) || null,
+          path: filePath,
+        },
+      });
+
+      if (!file) {
+        req.session.openDialog = "error";
+        req.session.errorMessage = "Could not download file.";
+
+        return req.session.save((error) => {
+          if (error) {
+            return next(error);
+          }
+          return res.redirect(req.get("referer") || "/");
+        });
+      }
+
       const { data, error } = await supabase.storage
         .from("files")
-        .download(
-          `${req.user.id}${req.params.folderId ? `/${req.params.folderId}` : ""}/${req.params.fileName}`,
-        );
+        .download(filePath);
 
       if (error) {
         return next(error);
       }
-      const buffer = Buffer.from(await data.arrayBuffer());
 
-      res.set(
-        "Content-Disposition",
-        `attachment; filename="${req.params.fileName}"`,
-      );
+      res.set("Content-Disposition", `attachment; filename="${file.name}"`);
       res.set("Content-Type", data.type);
 
+      const buffer = Buffer.from(await data.arrayBuffer());
       res.send(buffer);
     } catch (error) {
       return next(error);
