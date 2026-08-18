@@ -5,6 +5,20 @@ module.exports = {
   async newFilesPost(req, res, next) {
     for (const file of req.files) {
       try {
+        // Local validation
+        if (file.size > 50 * 1024 * 1024) {
+          req.session.openDialog = "error";
+          req.session.errorMessage = "File size cannot be greater than 50mb.";
+
+          return req.session.save((error) => {
+            if (error) {
+              return next(error);
+            }
+            return res.redirect(req.get("referer") || "/");
+          });
+        }
+
+        // Upload file data to supabase
         const { data, error } = await supabase.storage
           .from("files")
           .upload(
@@ -13,17 +27,24 @@ module.exports = {
           );
 
         if (error) {
+          // Supabase validation
           if (error.statusCode === "409") {
             req.session.openDialog = "error";
             req.session.errorMessage =
               "File(s) already exists at this location.";
 
-            return res.redirect(req.get("referer") || "/");
+            return req.session.save((error) => {
+              if (error) {
+                return next(error);
+              }
+              return res.redirect(req.get("referer") || "/");
+            });
           }
+
           return next(error);
         }
 
-        //Create file reference in db
+        // Create file reference in db
         await prisma.file.create({
           data: {
             name: file.originalname,
