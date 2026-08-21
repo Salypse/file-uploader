@@ -80,10 +80,7 @@ module.exports = {
       });
 
       if (!file) {
-        //Flash Message
-        req.session.openDialog = "error";
-        req.session.errorMessage = "Could not download file.";
-
+        req.flash("error", "Could not download file.");
         return req.session.save((error) => {
           if (error) {
             return next(error);
