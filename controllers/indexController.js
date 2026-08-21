@@ -3,6 +3,7 @@ const { prisma } = require("../lib/prisma");
 exports.indexGet = async (req, res, next) => {
   try {
     let content = [];
+    const flashErrors = req.flash("error");
 
     if (req.user) {
       const folders = await prisma.folder.findMany({
@@ -25,23 +26,10 @@ exports.indexGet = async (req, res, next) => {
         ...files.map((file) => ({ ...file, type: "file" })),
       ].sort((a, b) => a.createdAt - b.createdAt);
     }
-    // Get possible error info for dialogs
-    const errors = req.session.errors;
-    const errorMessage = req.session.errorMessage;
-    const openDialog = req.session.openDialog;
-    const updateItem = req.session.updateItem;
-
-    delete req.session.errors;
-    delete req.session.errorMessage;
-    delete req.session.openDialog;
-    delete req.session.updateItem;
 
     res.render("index", {
       content: content,
-      errors: errors,
-      errorMessage: errorMessage,
-      openDialog: openDialog,
-      updateItem: updateItem,
+      errors: flashErrors,
     });
   } catch (error) {
     return next(error);

@@ -1,14 +1,19 @@
-<% if (locals.errors || locals.messages) {%>
-    <div id="errors" role="alert">
+<% if (locals.errors || locals.messages || locals.dialog?.errors) {%>
+    <div id="dialog-errors" role="alert">
         <ul>
             <% if (locals.errors) { %>
                 <% errors.forEach((error) => { %>
-                    <li><%= error.msg %></li>
+                    <li><%= error.msg || error %></li>
                 <% }) %>
             <% } %>
             <% if (locals.messages) { %>
                 <% messages.forEach((message) => { %>
                     <li><%= message %></li>
+                <% }) %>
+            <% } %>
+            <% if (locals.dialog?.errors) { %>
+                <% dialog.errors.forEach((error) => { %>
+                    <li><%= error.msg %></li>
                 <% }) %>
             <% } %>
         </ul>

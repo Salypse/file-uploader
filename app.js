@@ -10,6 +10,7 @@ const passport = require("./config/passport");
 const expressSession = require("express-session");
 const { PrismaSessionStore } = require("@quixo3/prisma-session-store");
 const { prisma } = require("./lib/prisma");
+const flash = require("connect-flash");
 
 const indexRouter = require("./routes/indexRouter");
 const loginRouter = require("./routes/loginRouter");
@@ -44,10 +45,16 @@ app.use(
 
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(flash());
 
-//Allows user property in ejs files
 app.use((req, res, next) => {
+  // Allows user property in EJS files
   res.locals.user = req.user;
+
+  // Adds dialog state in EJS files, then deletes its from sessio\n
+  res.locals.dialog = req.session.dialog;
+  delete req.session.dialog;
+
   next();
 });
 

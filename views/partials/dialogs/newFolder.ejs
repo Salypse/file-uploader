@@ -3,7 +3,9 @@
 
   <h2>New Folder</h2>
 
-  <%- include("../errors") %>
+  <% if (locals.dialog?.item.type === "folder" && locals.dialog?.name === "update-folder") {%>
+    <%- include("../errors") %>
+  <% } %>
 
   <form action="<%= locals.folder ? `/folder/${folder.id}` : "/folder" %>" method=POST>
     <label for="folder-name">Name</label>

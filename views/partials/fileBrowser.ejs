@@ -8,6 +8,10 @@
       <button type="submit">Upload</button>
     </form>
 
+    <% if (locals.errors?.length > 0) { %>
+          <%- include ("./errors")%>
+        <% } %>
+
     <% if (locals.content.length) {%>
         <section id="content">
           <% content.forEach((item) => { %>

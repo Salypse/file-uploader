@@ -5,18 +5,8 @@ const { deleteSupabaseRefs } = require("../public/utils/deleteSupabaseRefs");
 
 module.exports = {
   async folderPageGet(req, res, next) {
+    const flashErrors = req.flash("error");
     try {
-      // Get possible error info for dialogs
-      const errors = req.session.errors;
-      const errorMessage = req.session.errorMessage;
-      const openDialog = req.session.openDialog;
-      const updateItem = req.session.updateItem;
-
-      delete req.session.errors;
-      delete req.session.errorMessage;
-      delete req.session.openDialog;
-      delete req.session.updateItem;
-
       const folders = await prisma.folder.findMany({
         where: {
           parentId: Number(req.params.id),
@@ -39,10 +29,7 @@ module.exports = {
 
       res.render("folder", {
         content: content,
-        errors: errors,
-        errorMessage: errorMessage,
-        openDialog: openDialog,
-        updateItem: updateItem,
+        errors: flashErrors,
       });
     } catch (error) {
       return next(error);
@@ -54,8 +41,14 @@ module.exports = {
 
     try {
       if (!errors.isEmpty()) {
-        req.session.errors = errors.array();
-        req.session.openDialog = "new-folder";
+        // Store which dialog to open and its error messages after redirect
+        req.session.dialog = {
+          name: "new-folder",
+          errors: errors.array(),
+          item: {
+            type: "folder",
+          },
+        };
         return req.session.save((error) => {
           if (error) {
             return next(error);
@@ -83,12 +76,15 @@ module.exports = {
       const errors = validationResult(req);
 
       if (!errors.isEmpty()) {
-        req.session.errors = errors.array();
-        req.session.openDialog = "update-name";
-        req.session.updateItem = {
-          id: res.locals.folder.id,
-          name: req.body.contentName,
-          type: "folder",
+        // Store which dialog to open with its error messages and folder data after redirect
+        req.session.dialog = {
+          name: "update-name",
+          errors: errors.array(),
+          item: {
+            id: res.locals.folder.id,
+            name: req.body.contentName,
+            type: "folder",
+          },
         };
 
         return req.session.save((error) => {

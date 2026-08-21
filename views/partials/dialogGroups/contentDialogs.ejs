@@ -2,13 +2,12 @@
 <script src="/utils/dialogs/deleteContent.js" defer></script>
 <script src="/utils/dialogs/updateContent.js" defer></script>
 
-<%- include("../dialogs/error")%>
 <%- include("../dialogs/newFolder") %> 
 <%- include("../dialogs/deleteContent") %>
 <%- include("../dialogs/updateName")%>
 
-<% if (locals.openDialog) { %>
+<% if (locals.dialog) { %>
     <script>
-        document.getElementById(`<%= openDialog %>`).showModal()
+        document.getElementById(`<%= dialog.name %>`).showModal()
     </script>
 <% } %>

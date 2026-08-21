@@ -6,18 +6,6 @@ module.exports = {
     // Check uploaded files for errors before uploading all files
     for (const file of req.files) {
       // Local validation
-      if (file.size > 50 * 1024 * 1024) {
-        req.session.openDialog = "error";
-        req.session.errorMessage = "File size cannot be greater than 50mb.";
-
-        return req.session.save((error) => {
-          if (error) {
-            return next(error);
-          }
-          return res.redirect(req.get("referer") || "/");
-        });
-      }
-
       const existingFile = await prisma.file.findFirst({
         where: {
           name: file.originalname,
@@ -27,9 +15,17 @@ module.exports = {
       });
 
       if (existingFile) {
-        req.session.openDialog = "error";
-        req.session.errorMessage = "File already exists at this location.";
+        req.flash("error", "File already exists at this location.");
+        return req.session.save((error) => {
+          if (error) {
+            return next(error);
+          }
+          return res.redirect(req.get("referer") || "/");
+        });
+      }
 
+      if (file.size > 50 * 1024 * 1024) {
+        req.flash("error", "File size cannot be greater than 50mb.");
         return req.session.save((error) => {
           if (error) {
             return next(error);
@@ -84,6 +80,7 @@ module.exports = {
       });
 
       if (!file) {
+        //Flash Message
         req.session.openDialog = "error";
         req.session.errorMessage = "Could not download file.";
 
@@ -116,7 +113,7 @@ module.exports = {
   async deleteFile(req, res, next) {
     try {
       // Subpase file
-      const response = await supabase.storage
+      const { data, error } = await supabase.storage
         .from("files")
         .remove(req.body.filePath);
 

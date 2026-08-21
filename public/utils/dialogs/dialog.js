@@ -4,7 +4,7 @@ const closeModalBtns = document.querySelectorAll(".close-modal");
 window.addEventListener("pageshow", (event) => {
   const navigation = performance.getEntriesByType("navigation")[0];
 
-  if (navigation.type === "back_forward") {
+  if (navigation.type === "back_forward" || event.persisted) {
     window.location.reload();
   }
 });
@@ -16,7 +16,14 @@ openModalBtns.forEach((btn) => {
 });
 
 closeModalBtns.forEach((btn) => {
+  const dialog = btn.closest("dialog");
+  const dialogErrors = dialog.querySelector("#dialog-errors");
+
   btn.addEventListener("click", () => {
-    btn.closest("dialog").close();
+    dialog.close();
+
+    if (dialogErrors) {
+      dialogErrors.remove();
+    }
   });
 });
