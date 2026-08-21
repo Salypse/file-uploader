@@ -41,7 +41,7 @@
               <% } else if (item.type === "file") { %>
                 <%# File HTML%> 
 
-                <strong><%= item.name %></strong>
+                <a href="/file/<%= item.id %>"><%= item.name %></a>
 
                 <form action="/file/download/<%= item.path %>" method="GET">
                   <button type="submit">Download</button>

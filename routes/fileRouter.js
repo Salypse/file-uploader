@@ -3,9 +3,11 @@ const fileRouter = express.Router();
 const fileController = require("../controllers/fileController");
 
 const multer = require("multer");
-const { isAuth } = require("../public/utils/authMiddleware");
+const { isAuth, loadUserFile } = require("../public/utils/authMiddleware");
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
+
+fileRouter.get("/:id", isAuth, loadUserFile, fileController.filePageGet);
 
 fileRouter.post(
   "{/:id}",

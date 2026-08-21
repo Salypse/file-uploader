@@ -2,6 +2,10 @@ const supabase = require("../config/supabase");
 const { prisma } = require("../lib/prisma");
 
 module.exports = {
+  async filePageGet(req, res, next) {
+    res.render("file");
+  },
+
   async newFilesPost(req, res, next) {
     // Check uploaded files for errors before uploading all files
     for (const file of req.files) {
@@ -109,20 +113,24 @@ module.exports = {
 
   async deleteFile(req, res, next) {
     try {
-      // Subpase file
-      const { data, error } = await supabase.storage
-        .from("files")
-        .remove(req.body.filePath);
-
       // Db file reference
-      await prisma.file.delete({
+      const file = await prisma.file.delete({
         where: {
           id: Number(req.body.fileId),
           userId: req.user.id,
         },
       });
 
-      res.redirect(req.get("referer") || "/");
+      // Subpase file
+      const { data, error } = await supabase.storage
+        .from("files")
+        .remove(file.path);
+
+      if (error) {
+        return next(error);
+      }
+
+      res.redirect(file.parentId ? `/folder/${file.parentId}` : "/");
     } catch (error) {
       return next(error);
     }
