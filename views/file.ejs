@@ -8,6 +8,8 @@
 <body>
     <a href="/">Home</a>
     <main>
+        <a href="<%= locals.file.parentId ? `/folder/${locals.file.parentId}` : "/"%>">Back</a>
+
         <div id="file-info">
             <strong><%= file.name %></strong>
             <p>Uploaded On: <%= file.createdAt %></p>
