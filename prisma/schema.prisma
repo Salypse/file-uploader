@@ -13,6 +13,7 @@ model User {
   password String
   folders  Folder[]
   files    File[]
+  shares   Share[]
 }
 
 model Folder {
@@ -26,6 +27,7 @@ model Folder {
   parentFolder Folder?  @relation("FolderTree", fields: [parentId], references: [id], onDelete: Cascade)
   folders      Folder[] @relation("FolderTree")
   files        File[]
+  shares       Share[]
 }
 
 model File {
@@ -38,6 +40,18 @@ model File {
   createdAt DateTime @default(now())
 
   parentFolder Folder? @relation(fields: [parentId], references: [id], onDelete: Cascade)
+}
+
+model Share {
+  id        Int       @id @default(autoincrement())
+  token     String    @unique
+  expiresAt DateTime?
+
+  folder   Folder? @relation(fields: [folderId], references: [id])
+  folderId Int?
+
+  user   User @relation(fields: [userId], references: [id])
+  userId Int
 }
 
 model Session {

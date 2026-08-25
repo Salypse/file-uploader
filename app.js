@@ -17,6 +17,7 @@ const loginRouter = require("./routes/loginRouter");
 const signUpRouter = require("./routes/signUpRouter");
 const folderRouter = require("./routes/folderRouter");
 const fileRouter = require("./routes/fileRouter");
+const shareRouter = require("./routes/shareRouter");
 
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
@@ -63,6 +64,7 @@ app.use("/login", loginRouter);
 app.use("/sign-up", signUpRouter);
 app.use("/folder", folderRouter);
 app.use("/file", fileRouter);
+app.use("/share", shareRouter);
 
 //404 Not Found error handler
 app.use((req, res) => {

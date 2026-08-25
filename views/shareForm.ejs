@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Share</title>
+    <script src="/utils/shareForm.js" defer></script>
+</head>
+<body>
+    <a href="/">Home</a>
+
+    <main>
+        <a href="<%= locals.folderId ? `/folder/${folderId}` : "/"%>">Back</a>
+
+        <% if (locals.share) {%>
+            <h1>Link Generated</h1>
+            <p>Anyone with this link can view the contents</p>
+
+            <div id="link-copy">
+                <output id="share-link"><%= share.link %></output>
+
+                <%# Add css copy validation%>
+                <button onClick="copyLink()">Copy Link</button>
+            </div>
+
+            <strong>Expires: <%= share.expires %></strong>
+
+        <% } else {%>
+            <h1>Share <%= locals.folder ? folder.name : "Root" %> Contents</h1>
+            <p>Everything inside this folder will be assessible via the generate link. This includes all files and sub folders. </p>
+
+            <form action="/share" method="POST">
+                <input type="hidden" name="folderId" value="<%= locals.folder ? folder.id : "" %>"">
+
+                <label for="expires-choice">Link expiration: </label>
+                <select id="expires-choice" name="expiresChoice">
+                    <option value="1">1 Day</option>
+                    <option value="3">3 Days</option>
+                    <option value="7">7 Days</option>
+                </select>
+
+                <button type="submit">Generate Link</button>
+            </form>
+        <% } %>
+    </main>
+</body>
+</html>
