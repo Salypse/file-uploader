@@ -2,7 +2,7 @@
     <button type="button" data-target="new-folder" class="open-modal">New Folder +</button>
 
     <% if (locals.content?.length > 0) {%>
-      <a href="/share<%= locals.folder ? `/${folder.id}` : "" %>">Share</a>
+      <a href="/share/create<%= locals.folder ? `/${folder.id}` : "" %>">Share</a>
     <% } %>
 
     <form action="<%= locals.folder ? `/file/${folder.id}` : "/file" %>" method="post" enctype="multipart/form-data">
@@ -13,8 +13,8 @@
     </form>
 
     <% if (locals.errors?.length > 0) { %>
-          <%- include ("./errors")%>
-        <% } %>
+      <%- include ("./errors")%>
+    <% } %>
 
     <% if (locals.content.length) {%>
         <section id="content">

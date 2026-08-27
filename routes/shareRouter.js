@@ -4,7 +4,7 @@ const shareController = require("../controllers/shareController");
 const { isAuth, loadUserFolder } = require("../public/utils/authMiddleware");
 
 shareRouter.get(
-  "{/:id}",
+  "/create{/:id}",
   isAuth,
   (req, res, next) => {
     // If user is sharing from a folder load its data
@@ -15,6 +15,9 @@ shareRouter.get(
   },
   shareController.shareFormGet,
 );
+
+shareRouter.get("/:token", shareController.sharePageGet);
+shareRouter.get("/:token/folder/:id", shareController.shareFolderGet);
 
 shareRouter.post("/", isAuth, shareController.newSharePost);
 
