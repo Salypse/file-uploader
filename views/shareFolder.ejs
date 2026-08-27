@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= currentFolder.name %></title>
+    <title><%= currentFolder.name || "Root" %></title>
 </head>
 <body> 
-    <% if (locals.currentFolder.id !== locals.shareFolderId ) {%>
-        <a href="/share/<%= token %><%= currentFolder.parentId !== shareFolderId ? `/folder/${currentFolder.parentId}` : ""%>">Back</a>
+    <% if (locals.currentFolder.id !== locals.shareFolderId && locals.shareFolderId !== undefined) {%>
+        <a href="/share/<%= token %><%= currentFolder.parentId !== locals.shareFolderId ? `/folder/${currentFolder.parentId}` : ""%>">Back</a>
      <% } %>   
 
     <% if (locals.content.length > 0) {%>

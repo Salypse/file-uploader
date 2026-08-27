@@ -65,7 +65,7 @@ module.exports = {
 
       const content = await getContent(share.folderId, share.userId);
 
-      res.render("share", {
+      res.render("shareFolder", {
         content: content,
         currentFolder: currentFolder,
         token: share.token,
@@ -126,6 +126,9 @@ module.exports = {
           userId: share.userId,
         },
       });
+
+      console.log(currentFolder.id);
+      console.log(share.folderId);
 
       res.render("shareFolder", {
         content: content,
