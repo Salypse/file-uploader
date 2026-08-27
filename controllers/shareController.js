@@ -83,7 +83,7 @@ module.exports = {
         },
       });
 
-      if (!share) {
+      if (!share || share.expiresAt < new Date()) {
         const error = new Error("Share not found or expired.");
         error.status = 404;
         throw error;
