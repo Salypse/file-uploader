@@ -1,7 +1,11 @@
 const express = require("express");
 const shareRouter = express.Router();
 const shareController = require("../controllers/shareController");
-const { isAuth, loadUserFolder } = require("../public/utils/authMiddleware");
+const {
+  isAuth,
+  loadUserFolder,
+  verifyShareAccess,
+} = require("../public/utils/authMiddleware");
 
 shareRouter.get(
   "/create{/:id}",
@@ -16,8 +20,16 @@ shareRouter.get(
   shareController.shareFormGet,
 );
 
-shareRouter.get("/:token", shareController.sharePageGet);
-shareRouter.get("/:token/folder/:id", shareController.shareFolderGet);
+shareRouter.get(
+  "/:token",
+  verifyShareAccess("root"),
+  shareController.sharePageGet,
+);
+shareRouter.get(
+  "/:token/folder/:id",
+  verifyShareAccess("folder"),
+  shareController.shareFolderGet,
+);
 
 shareRouter.post("/", isAuth, shareController.newSharePost);
 

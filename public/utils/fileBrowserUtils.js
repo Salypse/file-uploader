@@ -24,13 +24,13 @@ module.exports = {
     return content;
   },
 
-  async getParentFolders(userId, itemId) {
+  async getParentFolders(userId, itemId, type) {
     try {
       let parentFolders = [];
       let currentId = itemId;
 
       while (currentId) {
-        const item = await prisma.folder.findUnique({
+        const item = await prisma[type].findUnique({
           where: {
             id: currentId,
             userId: userId,
@@ -43,11 +43,13 @@ module.exports = {
         }
         parentFolders.push(item.parentFolder.id);
         currentId = item.parentFolder.id;
+        // Change type to folder in case of starting type of file
+        type = "folder";
       }
 
       return parentFolders;
     } catch (error) {
-      return error;
+      throw error;
     }
   },
 };
