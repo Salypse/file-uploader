@@ -90,4 +90,27 @@ module.exports = {
       return next(error);
     }
   },
+
+  async shareFileGet(req, res, next) {
+    const share = res.locals.share;
+    const file = await prisma.file.findUnique({
+      where: {
+        id: Number(req.params.id),
+        userId: share.userId,
+      },
+    });
+
+    const { data, error } = await supabase.storage
+      .from("files")
+      .download(file.path);
+
+    file.createdAt = convertSqlDate(file.createdAt);
+    file.size = convertBytes(data.size);
+
+    res.render("shareFile", {
+      file: file,
+      shareFolderId: share.folderId,
+      token: share.token,
+    });
+  },
 };

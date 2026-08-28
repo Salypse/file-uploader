@@ -30,6 +30,11 @@ shareRouter.get(
   verifyShareAccess("folder"),
   shareController.shareFolderGet,
 );
+shareRouter.get(
+  "/:token/file/:id",
+  verifyShareAccess("file"),
+  shareController.shareFileGet,
+);
 
 shareRouter.post("/", isAuth, shareController.newSharePost);
 

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= file.name %></title>
+</head>
+<body>
+    <main>
+        <a href="/share/<%= token %><%= file.parentId !== locals.shareFolderId ? `/folder/${file.parentId}` : ""%>">Back</a>
+
+        <div id="file-info">
+            <strong><%= file.name %></strong>
+            <p>Uploaded On: <%= file.createdAt %></p>
+            <p>File Size: <%= file.size %></p>
+        </div>
+    </main>
+</body>
+</html>
