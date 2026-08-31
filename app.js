@@ -11,6 +11,7 @@ const expressSession = require("express-session");
 const { PrismaSessionStore } = require("@quixo3/prisma-session-store");
 const { prisma } = require("./lib/prisma");
 const flash = require("connect-flash");
+const cron = require("node-cron");
 
 const indexRouter = require("./routes/indexRouter");
 const loginRouter = require("./routes/loginRouter");
@@ -83,6 +84,26 @@ app.use((err, req, res, next) => {
     statusCode: statusCode,
   });
 });
+
+cron.schedule(
+  "0 0 * * * ",
+  async () => {
+    try {
+      const deletedShares = await prisma.share.deleteMany({
+        where: {
+          expiresAt: {
+            lt: new Date(),
+          },
+        },
+      });
+
+      console.log(`Deleted ${deletedShares.count} share links.`);
+    } catch (error) {
+      console.error(error);
+    }
+  },
+  { timezone: "America/Chicago" },
+);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, (error) => {
