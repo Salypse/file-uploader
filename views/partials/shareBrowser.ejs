@@ -11,6 +11,12 @@
                 <%# Share File HTML%>
 
                 <a href="/share/<%= token %>/file/<%= item.id%>"><%= item.name%></a>
+
+                <div id="file-options">
+                    <form action="/share/<%= token %>/download/<%= item.id %>" method="GET">
+                        <button type="submit">Download</button>
+                    </form>
+                </div>
             <% } %>
         <% })%>
     </div>

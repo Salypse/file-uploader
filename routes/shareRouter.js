@@ -38,4 +38,10 @@ shareRouter.get(
 
 shareRouter.post("/", isAuth, shareController.newSharePost);
 
+shareRouter.get(
+  "/:token/download/:fileId",
+  verifyShareAccess("file"),
+  shareController.shareFileDownload,
+);
+
 module.exports = shareRouter;

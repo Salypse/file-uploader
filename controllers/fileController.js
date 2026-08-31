@@ -1,5 +1,6 @@
 const supabase = require("../config/supabase");
 const { prisma } = require("../lib/prisma");
+const { downloadFromStorage } = require("../public/utils/fileBrowserUtils");
 
 module.exports = {
   async filePageGet(req, res, next) {
@@ -93,13 +94,7 @@ module.exports = {
         });
       }
 
-      const { data, error } = await supabase.storage
-        .from("files")
-        .download(filePath);
-
-      if (error) {
-        return next(error);
-      }
+      const data = await downloadFromStorage(file);
 
       res.set("Content-Disposition", `attachment; filename="${file.name}"`);
       res.set("Content-Type", data.type);

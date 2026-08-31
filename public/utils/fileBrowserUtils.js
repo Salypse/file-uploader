@@ -1,4 +1,5 @@
 const { prisma } = require("../../lib/prisma");
+const supabase = require("../../config/supabase");
 
 module.exports = {
   async getContent(parentId, userId) {
@@ -51,5 +52,17 @@ module.exports = {
     } catch (error) {
       throw error;
     }
+  },
+
+  async downloadFromStorage(file) {
+    const { data, error } = await supabase.storage
+      .from("files")
+      .download(file.path);
+
+    if (error) {
+      throw error;
+    }
+
+    return data;
   },
 };

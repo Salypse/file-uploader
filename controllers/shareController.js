@@ -6,6 +6,7 @@ const {
 const {
   getParentFolders,
   getContent,
+  downloadFromStorage,
 } = require("../public/utils/fileBrowserUtils");
 const supabase = require("../config/supabase");
 
@@ -112,5 +113,27 @@ module.exports = {
       shareFolderId: share.folderId,
       token: share.token,
     });
+  },
+
+  async shareFileDownload(req, res, next) {
+    try {
+      const share = res.locals.share;
+      const file = await prisma.file.findUnique({
+        where: {
+          id: Number(req.params.fileId),
+          userId: share.userId,
+        },
+      });
+
+      const data = await downloadFromStorage(file);
+
+      res.set("Content-Disposition", `attachment; filename="${file.name}"`);
+      res.set("Content-Type", data.type);
+
+      const buffer = Buffer.from(await data.arrayBuffer());
+      res.send(buffer);
+    } catch (error) {
+      return next(error);
+    }
   },
 };
