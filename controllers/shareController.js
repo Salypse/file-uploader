@@ -94,19 +94,7 @@ module.exports = {
 
   async shareFileGet(req, res, next) {
     const share = res.locals.share;
-    const file = await prisma.file.findUnique({
-      where: {
-        id: Number(req.params.id),
-        userId: share.userId,
-      },
-    });
-
-    const { data, error } = await supabase.storage
-      .from("files")
-      .download(file.path);
-
-    file.createdAt = convertSqlDate(file.createdAt);
-    file.size = convertBytes(data.size);
+    const file = res.locals.file;
 
     res.render("shareFile", {
       file: file,
@@ -118,12 +106,7 @@ module.exports = {
   async shareFileDownload(req, res, next) {
     try {
       const share = res.locals.share;
-      const file = await prisma.file.findUnique({
-        where: {
-          id: Number(req.params.fileId),
-          userId: share.userId,
-        },
-      });
+      const file = res.locals.file;
 
       const data = await downloadFromStorage(file);
 

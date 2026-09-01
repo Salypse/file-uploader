@@ -4,6 +4,7 @@ const fileController = require("../controllers/fileController");
 
 const multer = require("multer");
 const { isAuth, loadUserFile } = require("../public/utils/authMiddleware");
+const { validateUploadedFiles } = require("../validators/fileValidator");
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
@@ -12,12 +13,14 @@ fileRouter.get("/:id", isAuth, loadUserFile, fileController.filePageGet);
 fileRouter.post(
   "{/:id}",
   upload.array("uploadFiles"),
+  validateUploadedFiles,
   fileController.newFilesPost,
 );
 
 fileRouter.get(
-  "/download/:userId{/:folderId}/:fileName",
+  "/download/:id",
   isAuth,
+  loadUserFile,
   fileController.downloadFile,
 );
 

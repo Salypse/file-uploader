@@ -8,41 +8,8 @@ module.exports = {
   },
 
   async newFilesPost(req, res, next) {
-    // Check uploaded files for errors before uploading all files
-    for (const file of req.files) {
-      // Local validation
-      const existingFile = await prisma.file.findFirst({
-        where: {
-          name: file.originalname,
-          parentId: Number(req.params.id),
-          userId: req.user.id,
-        },
-      });
-
-      if (existingFile) {
-        req.flash("error", "File already exists at this location.");
-        return req.session.save((error) => {
-          if (error) {
-            return next(error);
-          }
-          return res.redirect(req.get("referer") || "/");
-        });
-      }
-
-      if (file.size > 50 * 1024 * 1024) {
-        req.flash("error", "File size cannot be greater than 50mb.");
-        return req.session.save((error) => {
-          if (error) {
-            return next(error);
-          }
-          return res.redirect(req.get("referer") || "/");
-        });
-      }
-    }
-
-    // Upload each file
-    for (const file of req.files) {
-      try {
+    try {
+      for (const file of req.files) {
         // Upload file data to supabase
         const storageName = crypto.randomUUID();
         const { data, error } = await supabase.storage
@@ -65,35 +32,16 @@ module.exports = {
             userId: req.user.id,
           },
         });
-      } catch (error) {
-        return next(error);
       }
+    } catch (error) {
+      return next(error);
     }
     res.redirect(req.get("referer") || "/");
   },
 
   async downloadFile(req, res, next) {
     try {
-      const filePath = `${req.user.id}${req.params.folderId ? `/${req.params.folderId}` : ""}/${req.params.fileName}`;
-      // Verify File
-      const file = await prisma.file.findFirst({
-        where: {
-          userId: req.user.id,
-          parentId: Number(req.params.folderId) || null,
-          path: filePath,
-        },
-      });
-
-      if (!file) {
-        req.flash("error", "Could not download file.");
-        return req.session.save((error) => {
-          if (error) {
-            return next(error);
-          }
-          return res.redirect(req.get("referer") || "/");
-        });
-      }
-
+      const file = res.locals.file;
       const data = await downloadFromStorage(file);
 
       res.set("Content-Disposition", `attachment; filename="${file.name}"`);

@@ -16,7 +16,7 @@
             <p>File Size: <%= file.fileSize %> </p>
         </div>
         <div id="file-options">
-            <form action="/file/download/<%= file.path %>" method="GET">
+            <form action="/file/download/<%= file.id %>" method="GET">
               <button type="submit">Download</button>
             </form>
 

@@ -5,6 +5,7 @@ const {
   isAuth,
   loadUserFolder,
   verifyShareAccess,
+  loadUserFile,
 } = require("../public/utils/authMiddleware");
 
 shareRouter.get(
@@ -33,14 +34,16 @@ shareRouter.get(
 shareRouter.get(
   "/:token/file/:id",
   verifyShareAccess("file"),
+  loadUserFile,
   shareController.shareFileGet,
 );
 
 shareRouter.post("/", isAuth, shareController.newSharePost);
 
 shareRouter.get(
-  "/:token/download/:fileId",
+  "/:token/download/:id",
   verifyShareAccess("file"),
+  loadUserFile,
   shareController.shareFileDownload,
 );
 

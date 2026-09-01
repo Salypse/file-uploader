@@ -41,7 +41,7 @@ module.exports = {
       const file = await prisma.file.findFirst({
         where: {
           id: Number(req.params.id),
-          userId: req.user.id,
+          userId: res.locals.share ? res.locals.share.userId : req.user.id,
         },
       });
 
