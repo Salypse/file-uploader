@@ -45,47 +45,25 @@ module.exports = {
     }
   },
 
-  async sharePageGet(req, res, next) {
+  async shareFolderGet(req, res, next) {
     try {
-      // Get data from shared location
       const share = res.locals.share;
-      const currentFolder = share.folderId
+      const folderId = Number(req.params.id) || share.folderId;
+
+      const content = await getContent(folderId, share.userId);
+      const currentFolder = folderId
         ? await prisma.folder.findUnique({
             where: {
-              id: share.folderId,
+              id: folderId,
               userId: share.userId,
             },
           })
         : "";
 
-      const content = await getContent(share.folderId, share.userId);
-
       res.render("shareFolder", {
         content: content,
         currentFolder: currentFolder,
-        token: share.token,
-      });
-    } catch (error) {
-      return next(error);
-    }
-  },
-
-  async shareFolderGet(req, res, next) {
-    try {
-      const share = res.locals.share;
-      const content = await getContent(req.params.id, share.userId);
-      const currentFolder = await prisma.folder.findUnique({
-        where: {
-          id: Number(req.params.id),
-          userId: share.userId,
-        },
-      });
-
-      res.render("shareFolder", {
-        content: content,
-        currentFolder: currentFolder,
-        shareFolderId: share.folderId,
-        token: share.token,
+        share: share,
       });
     } catch (error) {
       return next(error);

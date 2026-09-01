@@ -6,14 +6,14 @@
             <% if (item.type === "folder") {%>
                 <%# Share Folder HTML %>
 
-                <a href="/share/<%= token %>/folder/<%= item.id %>"><%= item.name %></a>
+                <a href="/share/<%= share.token %>/folder/<%= item.id %>"><%= item.name %></a>
             <% } else if (item.type === "file") {%>
                 <%# Share File HTML%>
 
-                <a href="/share/<%= token %>/file/<%= item.id%>"><%= item.name%></a>
+                <a href="/share/<%= share.token %>/file/<%= item.id%>"><%= item.name%></a>
 
                 <div id="file-options">
-                    <form action="/share/<%= token %>/download/<%= item.id %>" method="GET">
+                    <form action="/share/<%= share.token %>/download/<%= item.id %>" method="GET">
                         <button type="submit">Download</button>
                     </form>
                 </div>

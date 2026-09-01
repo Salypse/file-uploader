@@ -91,7 +91,7 @@ module.exports = {
           if (!share.folderId) {
             const item = await prisma[type].findUnique({
               where: {
-                id: Number(req.params.id) || Number(req.params.fileId),
+                id: Number(req.params.id),
                 userId: share.userId,
               },
             });
@@ -109,7 +109,7 @@ module.exports = {
           else {
             const parentFolders = await getParentFolders(
               share.userId,
-              Number(req.params.id) || Number(req.params.fileId),
+              Number(req.params.id),
               type,
             );
 

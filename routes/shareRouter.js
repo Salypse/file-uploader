@@ -24,7 +24,7 @@ shareRouter.get(
 shareRouter.get(
   "/:token",
   verifyShareAccess("root"),
-  shareController.sharePageGet,
+  shareController.shareFolderGet,
 );
 shareRouter.get(
   "/:token/folder/:id",

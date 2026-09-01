@@ -6,8 +6,9 @@
     <title><%= currentFolder.name || "Root" %></title>
 </head>
 <body> 
-    <% if (locals.currentFolder.id !== locals.shareFolderId && locals.shareFolderId !== undefined) {%>
-        <a href="/share/<%= token %><%= currentFolder.parentId !== locals.shareFolderId ? `/folder/${currentFolder.parentId}` : ""%>">Back</a>
+    <%# Only show back button for items that are not root folder%>
+    <% if (locals.currentFolder && currentFolder.id !== share.folderId) {%>
+        <a href="/share/<%= share.token %><%= currentFolder.parentId !== locals.share.folderId ? `/folder/${currentFolder.parentId}` : ""%>">Back</a>
      <% } %>   
 
     <% if (locals.content.length > 0) {%>

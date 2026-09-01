@@ -2,30 +2,13 @@ const { validationResult } = require("express-validator");
 const { prisma } = require("../lib/prisma");
 const supabase = require("../config/supabase");
 const { deleteSupabaseRefs } = require("../public/utils/deleteSupabaseRefs");
+const { getContent } = require("../public/utils/fileBrowserUtils");
 
 module.exports = {
   async folderPageGet(req, res, next) {
     const flashErrors = req.flash("error");
     try {
-      const folders = await prisma.folder.findMany({
-        where: {
-          parentId: Number(req.params.id),
-          userId: req.user.id,
-        },
-      });
-
-      const files = await prisma.file.findMany({
-        where: {
-          parentId: Number(req.params.id),
-          userId: req.user.id,
-        },
-      });
-
-      // Merge folders and files with parentId of current folder
-      const content = [
-        ...folders.map((folder) => ({ ...folder, type: "folder" })),
-        ...files.map((file) => ({ ...file, type: "file" })),
-      ].sort((a, b) => a.createdAt - b.createdAt);
+      const content = await getContent(req.params.id, req.user.id);
 
       res.render("folder", {
         content: content,
