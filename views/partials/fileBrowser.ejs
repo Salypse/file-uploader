@@ -64,7 +64,9 @@
             </div>
           <% })%>
         </section>
-    <%}%>
+    <%} else {%>
+      <p>No items in this folder.</p>
+    <% }%>
 
     <%- include("./dialogGroups/contentDialogs.ejs") %>
 </section>

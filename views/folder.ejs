@@ -3,36 +3,37 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><%= folder.name %></title>
+    <title><%= locals.folder?.name || "My Files" %></title>
   </head>
   <body>
-    <a href="/">Home</a>
     <main>
-    <button type="button" data-target="new-folder" class="open-modal">New Folder +</button>
-      <div id="folder-header">
-        <a href="<%= locals.folder.parentId ? `/folder/${locals.folder.parentId}` : "/"%>">Back</a>
-        <h1><%= folder.name %></h1>
+      <h1><%= locals.folder?.name || "My Files" %></h1>
+        <% if (locals.folder) {%>
+          <div id="folder-header">
+                    
+            <a href="<%= locals.folder.parentId ? `/folder/${locals.folder.parentId}` : "/"%>">Back</a>
 
-        <button 
-          type="button"
-          data-target="update-name"
-          data-content-id="<%= folder.id%>" 
-          data-content-name="<%= folder.name %>"
-          data-type="folder"
-          class="open-modal update-name-btn"
-        > Rename </button>
+            <button 
+              type="button"
+              data-target="update-name"
+              data-content-id="<%= folder.id%>" 
+              data-content-name="<%= folder.name %>"
+              data-type="folder"
+              class="open-modal update-name-btn"
+            > Rename </button>
 
-        <button 
-          type="button" 
-          data-target="delete-content" 
-          data-content-id="<%= folder.id%>" 
-          data-content-name="<%= folder.name %>"
-          data-type="folder"
-          class="open-modal delete-content-btn"
-        > X </button>
-      </div>
+            <button 
+              type="button" 
+              data-target="delete-content" 
+              data-content-id="<%= folder.id%>" 
+              data-content-name="<%= folder.name %>"
+              data-type="folder"
+              class="open-modal delete-content-btn"
+            > X </button>
+          </div>
+        <% } %>
 
-      <%- include("./partials/fileBrowser") %>
+        <%- include("./partials/fileBrowser") %>
     </main>
   </body>
 </html>

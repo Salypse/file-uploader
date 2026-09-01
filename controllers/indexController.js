@@ -1,4 +1,5 @@
 const { prisma } = require("../lib/prisma");
+const { getContent } = require("../public/utils/fileBrowserUtils");
 
 exports.indexGet = async (req, res, next) => {
   try {
@@ -6,28 +7,10 @@ exports.indexGet = async (req, res, next) => {
     const flashErrors = req.flash("error");
 
     if (req.user) {
-      const folders = await prisma.folder.findMany({
-        where: {
-          parentId: null,
-          userId: req.user.id,
-        },
-      });
-
-      const files = await prisma.file.findMany({
-        where: {
-          parentId: null,
-          userId: req.user.id,
-        },
-      });
-
-      // Merge folder and files, sort by createdAt value
-      content = [
-        ...folders.map((folder) => ({ ...folder, type: "folder" })),
-        ...files.map((file) => ({ ...file, type: "file" })),
-      ].sort((a, b) => a.createdAt - b.createdAt);
+      content = await getContent(null, req.user.id);
     }
 
-    res.render("index", {
+    res.render("folder", {
       content: content,
       errors: flashErrors,
     });
