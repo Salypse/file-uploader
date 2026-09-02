@@ -13,15 +13,6 @@ module.exports = {
     res.render("login", { messages: failureMessages });
   },
 
-  validateLoginForm(req, res, next) {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).render("login", { errors: errors.array() });
-    }
-
-    next();
-  },
-
   logOut(req, res, next) {
     req.logout((error) => {
       if (error) {
