@@ -1,4 +1,4 @@
-<section id="file-browser">
+<section id="files">
     <button type="button" data-target="new-folder" class="open-modal">New Folder +</button>
 
     <% if (locals.content?.length > 0) {%>
@@ -17,9 +17,9 @@
     <% } %>
 
     <% if (locals.content.length) {%>
-        <section id="content">
+        <section id="file-browser">
           <% content.forEach((item) => { %>
-            <div>
+            <div id="content">
               <% if (item.type === "folder") { %>
                 <%# Folder HTML %>
 

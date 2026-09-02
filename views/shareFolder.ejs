@@ -6,15 +6,16 @@
     <title><%= currentFolder.name || "Root" %></title>
 </head>
 <body> 
-    <%# Only show back button for items that are not root folder%>
-    <% if (locals.currentFolder && currentFolder.id !== share.folderId) {%>
-        <a href="/share/<%= share.token %><%= currentFolder.parentId !== locals.share.folderId ? `/folder/${currentFolder.parentId}` : ""%>">Back</a>
-     <% } %>   
+    <main>
+        <h1><%= currentFolder ? currentFolder.name : "Root" %></h1>
+        <div id="folder-header">
+            <%# Only show back button for items that are not root folder%>
+            <% if (locals.currentFolder && currentFolder.id !== share.folderId) {%>
+                <a href="/share/<%= share.token %><%= currentFolder.parentId !== locals.share.folderId ? `/folder/${currentFolder.parentId}` : ""%>">Back</a>
+            <% } %>   
+        </div>
 
-    <% if (locals.content.length > 0) {%>
-        <%- include("./partials/shareBrowser")%>
-    <% } else {%>
-        <p>No items in this folder.</p>
-    <% } %>
+        <%- include("./partials/shareBrowser")>
+    </main>
 </body>
 </html>
