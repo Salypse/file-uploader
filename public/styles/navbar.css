@@ -1,0 +1,93 @@
+nav {
+  display: flex;
+  justify-content: space-between;
+
+  padding: 0.5rem;
+
+  color: var(--color-text);
+  font-size: clamp(1.3rem, 2.5vw, 1.75rem);
+
+  background-color: var(--color-navbar);
+  border-bottom: 0.2rem solid var(--color-border);
+}
+
+nav svg {
+  width: 0.7em;
+  height: 0.7em;
+  display: block;
+}
+
+#nav-name {
+  display: flex;
+  align-items: center;
+}
+
+#nav-name:hover,
+#nav-name:focus-visible {
+  transform: scale(1.02);
+}
+
+#nav-options {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+#nav-options a {
+  position: relative;
+}
+
+#nav-options a::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  border-radius: 2px;
+  background-color: var(--color-text);
+  bottom: -0.1rem;
+  left: 0;
+  transform-origin: right;
+  transform: scaleX(0);
+  transition: transform 0.2s ease-in-out;
+}
+
+#nav-options a:hover::before,
+#nav-options a:focus-visible::before {
+  transform-origin: left;
+  transform: scaleX(1);
+}
+
+.user-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+  width: 1.3em;
+  height: 1.3em;
+
+  font-size: 0.8em;
+
+  background-color: var(--color-surface);
+  border: 2px solid var(--color-border);
+
+  transition: background-color 150ms ease;
+}
+
+.user-icon:hover,
+.user-icon:focus-visible {
+  background-color: var(--color-navbar);
+}
+
+.user-icon:active {
+  border-color: var(--color-surface);
+}
+
+.dropdown-content p {
+  font-size: clamp(0.8rem, 1vw, 1rem);
+  color: var(--color-text-muted);
+}
+
+.dropdown-content a {
+  font-size: clamp(1rem, 2vw, 1.2rem);
+}
