@@ -1,9 +1,7 @@
 <section id="files">
     <button type="button" data-target="new-folder" class="open-modal">New Folder +</button>
 
-    <% if (locals.content?.length > 0) {%>
-      <a href="/share/create<%= locals.folder ? `/${folder.id}` : "" %>">Share</a>
-    <% } %>
+    <a href="/share/create<%= locals.folder ? `/${folder.id}` : "" %>">Share</a>
 
     <form action="<%= locals.folder ? `/file/${folder.id}` : "/file" %>" method="post" enctype="multipart/form-data">
       <label for="upload_files">Upload Files</label>
@@ -16,20 +14,20 @@
       <%- include ("./errors")%>
     <% } %>
 
-    <% if (locals.content.length) {%>
         <section id="file-browser">
-          <% content.forEach((item) => { %>
-            <div id="content">
-              <% if (item.type === "folder") { %>
+          <% if (content.folders.length > 0) { %>
+            <section id="folder-content">
+              <h2>Folders</h2>
+              <% content.folders.forEach((folder) => {%>
                 <%# Folder HTML %>
+                <div class="folder" >
+                  <a href="/folder/<%= folder.id %>"><%= folder.name %></a>  
 
-                <a href="/folder/<%= item.id %>"><%= item.name %></a>
-
-                <button 
+                  <button 
                     type="button"
                     data-target="update-name"
-                    data-content-id="<%= item.id%>" 
-                    data-content-name="<%= item.name %>"
+                    data-content-id="<%= folder.id%>" 
+                    data-content-name="<%= folder.name %>"
                     data-type="folder"
                     class="open-modal update-name-btn"
                   > Rename </button>
@@ -37,34 +35,41 @@
                   <button 
                     type="button" 
                     data-target="delete-content" 
-                    data-content-id="<%= item.id%>" 
-                    data-content-name="<%= item.name %>"
+                    data-content-id="<%= folder.id%>" 
+                    data-content-name="<%= folder.name %>"
                     data-type="folder"
                     class="open-modal delete-content-btn"
                   > X </button>
-              <% } else if (item.type === "file") { %>
-                <%# File HTML%> 
+                </div>
+              <% }) %>
+            </section>
+          <% } %>
 
-                <a href="/file/<%= item.id %>"><%= item.name %></a>
+          <% if (content.files.length > 0) {%>
+            <section id="file-content">
+              <h2>Files</h2>
+              <% content.files.forEach((file) => {%>
+                <%## File HTML%>
+                <div class="file">
+                  <a href="/file/<%= file.id %>"><%= file.name %></a>
 
-                <form action="/file/download/<%= item.id %>" method="GET">
-                  <button type="submit">Download</button>
-                </form>
+                  <form action="/file/download/<%= file.id %>" method="GET">
+                    <button type="submit">Download</button>
+                  </form>
 
-                <button 
-                    type="button" 
-                    data-target="delete-content" 
-                    data-content-id="<%= item.id%>" 
-                    data-content-name="<%= item.name %>"
+                  <button 
+                    type="button"
+                    data-target="delete-content"
+                    data-content-id="<%= file.id%>"
+                    data-content-name="<%= file.name %>""
                     data-type="file"
-                    data-file-path="<%= item.path %>"
+                    data-file-path="<%= file.path %>""
                     class="open-modal delete-content-btn"
-                  > X </button>
-              <% } %>
-            </div>
-          <% })%>
+                  > X </button> %>
+                </div>
+              <% }) %>
+            </section>
+          <% } %>
         </section>
-    <% } %>
-
     <%- include("./dialogGroups/contentDialogs.ejs") %>
 </section>

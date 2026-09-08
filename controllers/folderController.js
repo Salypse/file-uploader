@@ -2,7 +2,10 @@ const { validationResult } = require("express-validator");
 const { prisma } = require("../lib/prisma");
 const supabase = require("../config/supabase");
 const { deleteSupabaseRefs } = require("../public/utils/deleteSupabaseRefs");
-const { getContent } = require("../public/utils/fileBrowserUtils");
+const {
+  getContent,
+  getParentFolders,
+} = require("../public/utils/fileBrowserUtils");
 
 module.exports = {
   async folderPageGet(req, res, next) {

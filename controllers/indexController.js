@@ -1,5 +1,8 @@
 const { prisma } = require("../lib/prisma");
-const { getContent } = require("../public/utils/fileBrowserUtils");
+const {
+  getContent,
+  getParentFolders,
+} = require("../public/utils/fileBrowserUtils");
 
 exports.indexGet = async (req, res, next) => {
   if (req.user) {

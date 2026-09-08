@@ -78,3 +78,7 @@ summary:hover {
   pointer-events: all;
   opacity: 1;
 }
+
+#breadcrumb-nav {
+  color: red;
+}

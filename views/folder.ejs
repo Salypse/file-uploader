@@ -15,31 +15,42 @@
     <main>
         <h1><%= locals.folder?.name || "My Files" %></h1>
         <% if (locals.user) {%>
-          <% if (locals.folder) {%>
             <div id="folder-header">
-                      
-              <a href="<%= locals.folder.parentId ? `/folder/${locals.folder.parentId}` : "/"%>">Back</a>
+              
+              <%# Folder options if not at root %>
+              <% if (locals.folder) { %>
+                <nav id="breadcrumb-nav">
+                  <ol>
+                    <li><a href="/">Root Folder</a></li>
+                    <% content.parentFolders.forEach((parentFolder) => { %>
+                      <li>
+                        <a href="/folder/<%= parentFolder.id %>"><%= parentFolder.name %></a>
+                      </li>
+                    <% }) %>
+                  </ol>
+                </nav>
 
-              <button 
-                type="button"
-                data-target="update-name"
-                data-content-id="<%= folder.id%>" 
-                data-content-name="<%= folder.name %>"
-                data-type="folder"
-                class="open-modal update-name-btn"
-              > Rename </button>
+                <button 
+                  type="button"
+                  data-target="update-name"
+                  data-content-id="<%= folder.id%>" 
+                  data-content-name="<%= folder.name %>"
+                  data-type="folder"
+                  class="open-modal update-name-btn"
+                > Rename </button>
 
-              <button 
-                type="button" 
-                data-target="delete-content" 
-                data-content-id="<%= folder.id%>" 
-                data-content-name="<%= folder.name %>"
-                data-type="folder"
-                class="open-modal delete-content-btn"
-              > X </button>
-            </div>
-          <% } %>
-          <%- include("./partials/fileBrowser") %>
+                <button 
+                  type="button" 
+                  data-target="delete-content" 
+                  data-content-id="<%= folder.id%>" 
+                  data-content-name="<%= folder.name %>"
+                  data-type="folder"
+                  class="open-modal delete-content-btn"
+                > X </button>
+              </div>
+
+            <% } %>
+            <%- include("./partials/fileBrowser") %>
         <% } else { %>
           <p>Login to add files.</p>
         <% } %>
