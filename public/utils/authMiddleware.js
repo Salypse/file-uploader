@@ -77,6 +77,9 @@ module.exports = {
           where: {
             token: req.params.token,
           },
+          include: {
+            folder: true,
+          },
         });
 
         if (!share || share.expiresAt < new Date()) {
@@ -113,7 +116,11 @@ module.exports = {
               type,
             );
 
-            if (!parentFolders.includes(share.folderId)) {
+            if (
+              !Object.values(parentFolders).some(
+                (folder) => folder.id === share.folderId,
+              )
+            ) {
               const error = new Error(
                 "Share not found or content unavailable.",
               );

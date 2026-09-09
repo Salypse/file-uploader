@@ -7,18 +7,28 @@
     <link rel="stylesheet" href="/styles/root.css">
     <link rel="Stylesheet" href="/styles/navbar.css">
 
-    <title><%= currentFolder.name || "Root" %></title>
+    <title><%= currentFolder.name || "Shared Files" %></title>
 </head>
 <body> 
     <%- include("./partials/navbar") %>
 
     <main>
-        <h1><%= currentFolder ? currentFolder.name : "Root" %></h1>
+        <h1><%= currentFolder.name || "Shared Files" %></h1>
         <div id="folder-header">
-            <%# Only show back button for items that are not root folder%>
+            <%# Only show breadcrumb nav if current folder isnt share root%>
             <% if (locals.currentFolder && currentFolder.id !== share.folderId) {%>
-                <a href="/share/<%= share.token %><%= currentFolder.parentId !== locals.share.folderId ? `/folder/${currentFolder.parentId}` : ""%>">Back</a>
-            <% } %>   
+                <nav id="breadcrumb-nav">
+                    <ol>
+                        <li><a href="/share/<%= share.token %>"><%= share.folder?.name || "Shared Files" %></a></li> 
+                        <%# Dont show folders that are below share%>
+                        <% content.parentFolders.forEach((parentFolder) => { %>
+                            <li>
+                                <a href="/share/<%= share.token %>/folder/<%= parentFolder.id %>"><%= parentFolder.name %></a>
+                            </li>
+                        <% }) %>
+                    </ol>
+                </nav> 
+            <% } %>
         </div>
 
         <%- include("./partials/shareBrowser") %>

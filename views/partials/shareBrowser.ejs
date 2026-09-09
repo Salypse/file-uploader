@@ -1,23 +1,33 @@
 <section id="share-browser">
-    <div id="content">
-        <% content.forEach((item) => { %>   
-            <% if (item.type === "folder") {%>
-                <%# Share Folder HTML %>
+    <% if (content.folders.length > 0) { %>
+        <section id="folder-content">
+            <h2>Folders</h2>
 
-                <a href="/share/<%= share.token %>/folder/<%= item.id %>"><%= item.name %></a>
-            <% } else if (item.type === "file") {%>
+            <% content.folders.forEach((folder) => {%>
+                <%# Share Folder HTML%>
+                <div class="folder">
+                    <a href="/share/<%= share.token %>/folder/<%= folder.id%>"><%= folder.name %></a>
+                </div>
+            <% }) %>
+        </section>
+    <% } %>
+
+    <% if (content.files.length > 0) { %>
+        <section id="file-content">
+            <h2>Files</h2>
+
+            <% content.files.forEach((file) => {%>
                 <%# Share File HTML%>
+                <div class="file">
+                    <a href="/share/<%= share.token %>/file/<%= file.id%>"><%= file.name %></a>
 
-                <a href="/share/<%= share.token %>/file/<%= item.id%>"><%= item.name%></a>
-
-                <div id="file-options">
-                    <form action="/share/<%= share.token %>/download/<%= item.id %>" method="GET">
+                    <form action="/share/<%= share.token %>/download/<%= file.id%>" method="GET">
                         <button type="submit">Download</button>
                     </form>
                 </div>
-            <% } %>
-        <% })%>
-    </div>
-    
+            <% }) %>
+        </section>
+    <% } %>
+
 </section>
          

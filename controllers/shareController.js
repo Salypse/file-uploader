@@ -60,6 +60,21 @@ module.exports = {
           })
         : "";
 
+      if (share.folderId) {
+        // If shared from folder remove all parent folders above root folder
+
+        const rootParents = await getParentFolders(
+          share.userId,
+          share.folderId,
+          "folder",
+        );
+        content.parentFolders = content.parentFolders.filter(
+          ({ id }) =>
+            id !== share.folderId &&
+            !rootParents.some((rootParent) => rootParent.id === id),
+        );
+      }
+
       res.render("shareFolder", {
         content: content,
         currentFolder: currentFolder,
