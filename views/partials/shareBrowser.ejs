@@ -1,33 +1,49 @@
-<section id="share-browser">
-    <% if (content.folders.length > 0) { %>
-        <section id="folder-content">
-            <h2>Folders</h2>
+<section id="share-browser" class="browser">
+  <% if (content.folders.length > 0) { %>
+    <section id="folder-content" class="browser-section">
+      <h2>Folders</h2>
 
-            <% content.folders.forEach((folder) => {%>
-                <%# Share Folder HTML%>
-                <div class="folder">
-                    <a href="/share/<%= share.token %>/folder/<%= folder.id%>"><%= folder.name %></a>
-                </div>
-            <% }) %>
-        </section>
-    <% } %>
+      <% content.folders.forEach((folder) => {%>
+        <%# Share Folder HTML%>
+        <div class="folder item">
+          <a href="/share/<%= share.token %>/folder/<%= folder.id%>">
+            <span aria-hidden="true">📁</span>
+            <%= folder.name %>
+          </a>
+        </div>
+      <% }) %>
+    </section>
+  <% } %>
 
-    <% if (content.files.length > 0) { %>
-        <section id="file-content">
-            <h2>Files</h2>
+  <% if (content.files.length > 0) { %>
+    <section id="file-content" class="browser-section">
+      <h2>Files</h2>
 
-            <% content.files.forEach((file) => {%>
-                <%# Share File HTML%>
-                <div class="file">
-                    <a href="/share/<%= share.token %>/file/<%= file.id%>"><%= file.name %></a>
+      <% content.files.forEach((file) => {%>
+        <%# Share File HTML%>
+        <div class="file item">
+          <a href="/share/<%= share.token %>/file/<%= file.id%>">
+            <span aria-hidden="true">💾</span>
+            <%= file.name %>
+          </a>
 
-                    <form action="/share/<%= share.token %>/download/<%= file.id%>" method="GET">
-                        <button type="submit">Download</button>
-                    </form>
-                </div>
-            <% }) %>
-        </section>
-    <% } %>
+          <div class="item-options">
+            <form action="/share/<%= share.token %>/download/<%= file.id%>" method="GET">
+              <button type="submit" aria-label="Download <%= file.name %>">
+                <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-down-to-line"><path d="M12 17V3"/><path d="m6 11 6 6 6-6"/><path d="M19 21H5"/></svg>
+              </button>
+            </form>
+          </div>
+                      
+        </div>
+      <% }) %>
+    </section>
+  <% } %>
 
-</section>
+  <% if (content.folders.length === 0 && content.files.length === 0) {%>
+    <strong>No content at this location.</strong>
+  <% } %>
+</section>  
+
+
          

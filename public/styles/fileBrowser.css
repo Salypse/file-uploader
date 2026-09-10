@@ -1,0 +1,87 @@
+.browser {
+  padding: 0.5rem;
+  margin: 1rem auto;
+  width: 95%;
+  max-width: 1000px;
+
+  display: flex;
+  flex-direction: column;
+
+  background-color: var(--color-surface);
+  color: var(--color-text);
+
+  border: 5px solid var(--color-border);
+  border-radius: 1rem;
+}
+
+.browser strong {
+  font-size: clamp(1.2rem, 4vw, 1.5rem);
+  text-align: center;
+}
+
+.browser-section {
+  margin-bottom: 1rem;
+}
+
+.browser-section h2 {
+  border-bottom: 2px solid var(--color-border);
+  margin-bottom: 0.5rem;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.3rem;
+
+  font-size: clamp(1rem, 3vw, 1.2rem);
+
+  transition: 150ms background-color ease;
+}
+
+.item a {
+  flex: 1;
+}
+
+.item:hover {
+  background-color: var(--color-background);
+}
+
+.item:has(a:focus-visible) {
+  outline: 3px solid var(--color-border);
+  outline-offset: -2px;
+}
+
+.item-options {
+  display: flex;
+  gap: 0.3rem;
+}
+
+.item-options svg {
+  width: 1.2em;
+
+  height: auto;
+}
+
+.item-options button {
+  padding: 0.3rem;
+
+  border: 2px solid var(--color-border);
+  border-radius: 50%;
+
+  transition:
+    150ms background-color ease-in-out,
+    150ms color ease-in-out,
+    100ms transform ease;
+}
+
+.item-options button:hover,
+.item-options button:focus-visible {
+  background-color: var(--color-border);
+  color: var(--color-surface);
+  outline: transparent;
+}
+
+.item-options button:active {
+  transform: scale(0.9);
+}

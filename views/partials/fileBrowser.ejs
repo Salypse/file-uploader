@@ -1,75 +1,103 @@
 <section id="files">
-    <button type="button" data-target="new-folder" class="open-modal">New Folder +</button>
+  <button type="button" data-target="new-folder" class="open-modal">New Folder +</button>
 
-    <a href="/share/create<%= locals.folder ? `/${folder.id}` : "" %>">Share</a>
+  <a href="/share/create<%= locals.folder ? `/${folder.id}` : "" %>">Share</a>
 
-    <form action="<%= locals.folder ? `/file/${folder.id}` : "/file" %>" method="post" enctype="multipart/form-data">
-      <label for="upload_files">Upload Files</label>
-      <input type="file" id="upload_files" name="uploadFiles" multiple required />
+  <form action="<%= locals.folder ? `/file/${folder.id}` : "/file" %>" method="post" enctype="multipart/form-data">
+    <label for="upload_files">Upload Files</label>
+    <input type="file" id="upload_files" name="uploadFiles" multiple required />
 
-      <button type="submit">Upload</button>
-    </form>
+    <button type="submit">Upload</button>
+  </form>
 
-    <% if (locals.errors?.length > 0) { %>
-      <%- include ("./errors")%>
+  <% if (locals.errors?.length > 0) { %>
+    <%- include ("./errors")%>
+  <% } %>
+
+  <section id="file-browser" class="browser">
+    <% if (content.folders.length > 0) { %>
+      <section id="folder-content" class="browser-section">
+        <h2>Folders</h2>
+
+        <% content.folders.forEach((folder) => {%>
+          <%# Folder HTML %>
+          <div class="folder item">
+            <a href="/folder/<%= folder.id %>">
+              <span aria-hidden="true">📁</span> 
+              <%= folder.name %>
+            </a>  
+
+            <div class="item-options">
+              <button 
+                type="button"
+                data-target="update-name"
+                data-content-id="<%= folder.id%>" 
+                data-content-name="<%= folder.name %>"
+                data-type="folder"
+                class="open-modal update-name-btn"
+                aria-label="Rename <%= folder.name %>"
+              > 
+                <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pen"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/></svg> 
+              </button>
+
+              <button 
+                type="button" 
+                data-target="delete-content" 
+                data-content-id="<%= folder.id%>" 
+                data-content-name="<%= folder.name %>"
+                data-type="folder"
+                class="open-modal delete-content-btn"
+                aria-label="Delete <%= folder.name %>"
+              > 
+                <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash"><path d="M10 11v6"/><path d="M14 11v6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+              </button>
+            </div>
+          </div>
+        <% }) %>
+      </section>
     <% } %>
 
-        <section id="file-browser">
-          <% if (content.folders.length > 0) { %>
-            <section id="folder-content">
-              <h2>Folders</h2>
-              <% content.folders.forEach((folder) => {%>
-                <%# Folder HTML %>
-                <div class="folder" >
-                  <a href="/folder/<%= folder.id %>"><%= folder.name %></a>  
+    <% if (content.files.length > 0) {%>
+      <section id="file-content" class="browser-section">
+        <h2>Files</h2>
 
-                  <button 
-                    type="button"
-                    data-target="update-name"
-                    data-content-id="<%= folder.id%>" 
-                    data-content-name="<%= folder.name %>"
-                    data-type="folder"
-                    class="open-modal update-name-btn"
-                  > Rename </button>
+        <% content.files.forEach((file) => {%>
+          <%## File HTML%>
+          <div class="file item">
+            <a href="/file/<%= file.id %>">
+              <span aria-hidden="true">💾</span> 
+              <%= file.name %>
+            </a>
 
-                  <button 
-                    type="button" 
-                    data-target="delete-content" 
-                    data-content-id="<%= folder.id%>" 
-                    data-content-name="<%= folder.name %>"
-                    data-type="folder"
-                    class="open-modal delete-content-btn"
-                  > X </button>
-                </div>
-              <% }) %>
-            </section>
-          <% } %>
+            <div class="item-options">
+              <form action="/file/download/<%= file.id %>" method="GET">
+                <button type="submit" aria-label="Download <%= file.name %>">
+                  <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-down-to-line"><path d="M12 17V3"/><path d="m6 11 6 6 6-6"/><path d="M19 21H5"/></svg>
+                </button>
+              </form>
 
-          <% if (content.files.length > 0) {%>
-            <section id="file-content">
-              <h2>Files</h2>
-              <% content.files.forEach((file) => {%>
-                <%## File HTML%>
-                <div class="file">
-                  <a href="/file/<%= file.id %>"><%= file.name %></a>
+              <button 
+                type="button"
+                data-target="delete-content"
+                data-content-id="<%= file.id%>"
+                data-content-name="<%= file.name %>"
+                data-type="file"
+                data-file-path="<%= file.path %>"
+                class="open-modal delete-content-btn"
+                aria-label="Delete <%= file.name %>"
+                > 
+                <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash"><path d="M10 11v6"/><path d="M14 11v6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+              </button>
+            </div>
+          </div>
+        <% }) %>
+      </section>
+    <% } %>
 
-                  <form action="/file/download/<%= file.id %>" method="GET">
-                    <button type="submit">Download</button>
-                  </form>
+    <% if (content.folders.length === 0 && content.files.length === 0) {%>
+      <strong>No content at this location.</strong>
+    <% } %>
+  </section>
 
-                  <button 
-                    type="button"
-                    data-target="delete-content"
-                    data-content-id="<%= file.id%>"
-                    data-content-name="<%= file.name %>""
-                    data-type="file"
-                    data-file-path="<%= file.path %>""
-                    class="open-modal delete-content-btn"
-                  > X </button> %>
-                </div>
-              <% }) %>
-            </section>
-          <% } %>
-        </section>
-    <%- include("./dialogGroups/contentDialogs.ejs") %>
+  <%- include("./dialogGroups/contentDialogs.ejs") %>
 </section>
