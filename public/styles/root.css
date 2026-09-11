@@ -53,6 +53,14 @@ button {
   cursor: pointer;
 }
 
+button:focus-visible {
+  outline: none;
+}
+
+ol {
+  list-style-type: none;
+}
+
 summary {
   list-style: none;
 }
@@ -98,8 +106,4 @@ summary:hover {
   transform: translateY(0);
   pointer-events: all;
   opacity: 1;
-}
-
-#breadcrumb-nav {
-  color: red;
 }

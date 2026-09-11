@@ -1,38 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="/styles/root.css">
     <link rel="Stylesheet" href="/styles/navbar.css">
+    <link rel="Stylesheet" href="/styles/folder.css">
     <link rel="stylesheet" href="/styles/fileBrowser.css">
 
     <title><%= currentFolder.name || "Shared Files" %></title>
-</head>
-<body> 
+  </head>
+  <body> 
     <%- include("./partials/navbar") %>
 
     <main>
+      <div id="folder-header">
         <h1><%= currentFolder.name || "Shared Files" %></h1>
-        <div id="folder-header">
-            <%# Only show breadcrumb nav if current folder isnt share root%>
-            <% if (locals.currentFolder && currentFolder.id !== share.folderId) {%>
-                <nav id="breadcrumb-nav">
-                    <ol>
-                        <li><a href="/share/<%= share.token %>"><%= share.folder?.name || "Shared Files" %></a></li> 
-                        <%# Dont show folders that are below share%>
-                        <% content.parentFolders.forEach((parentFolder) => { %>
-                            <li>
-                                <a href="/share/<%= share.token %>/folder/<%= parentFolder.id %>"><%= parentFolder.name %></a>
-                            </li>
-                        <% }) %>
-                    </ol>
-                </nav> 
-            <% } %>
-        </div>
-        
-        <%- include("./partials/shareBrowser") %>
+      </div>
+
+      <%# Only show breadcrumb nav if current folder isnt share root%>
+        <% if (locals.currentFolder && currentFolder.id !== share.folderId) {%>
+          <nav id="breadcrumb-nav">
+            <ol>
+              <li><a href="/share/<%= share.token %>"><%= share.folder?.name || "Shared Files" %></a></li> 
+              <%# Dont show folders that are below share%>
+              <% content.parentFolders.forEach((parentFolder) => { %>
+                <li>
+                  <a href="/share/<%= share.token %>/folder/<%= parentFolder.id %>"><%= parentFolder.name %></a>
+                </li>
+              <% }) %>
+            </ol>
+          </nav> 
+        <% } %>
+      
+      <%- include("./partials/shareBrowser") %>
     </main>
-</body>
+  </body>
 </html>
