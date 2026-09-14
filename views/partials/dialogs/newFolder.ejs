@@ -1,16 +1,19 @@
 <dialog class="modal" id="new-folder">
-  <button class="close-modal">X</button>
-
-  <h2>New Folder</h2>
+  <div class="modal-header">
+    <h2>New Folder</h2>
+    <button class="close-modal">X</button>
+  </div>
 
   <% if (locals.dialog?.item.type === "folder" && locals.dialog?.name === "new-folder") {%>
     <%- include("../errors") %>
   <% } %>
 
   <form action="<%= locals.folder ? `/folder/${folder.id}` : "/folder" %>" method=POST>
-    <label for="folder-name">Name</label>
-    <input type="text" id="folder-name" name="contentName" />
+    <div>
+      <label for="folder-name">Name</label>
+      <input type="text" id="folder-name" name="contentName" />
+    </div>
 
-    <button type="submit">Create</button>
+    <button type="submit" class="modal-action-btn">Create</button>
   </form>
 </dialog>

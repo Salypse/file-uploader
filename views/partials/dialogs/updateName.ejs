@@ -1,17 +1,19 @@
 <dialog class="modal" id="update-name">
-    <button class="close-modal">X</button>
-
+  <div class="modal-header">
     <h2 id="update-name-header">Rename <%= dialog?.item.type[0].toUpperCase() + dialog?.item.type.slice(1) %></h2>
+    <button class="close-modal">X</button>
+  </div>
 
     <% if (locals.dialog?.name === "update-name" && locals.dialog?.errors?.length > 0) {%>
         <%- include("../errors") %>
     <% } %>
 
     <form action="/<%= dialog?.item.type %>/<%= dialog?.item.id || ""%>?_method=PATCH" method="POST"  id="update-form">
-        <p id="action-text"></p>
+      <div>
         <label for="update-mame-input">Name</label>
         <input type="text" id="update-name-input" name="contentName" value="<%= dialog?.item.name || ""%>">
+      </div>
 
-        <button type="submit">Save</button>
+        <button type="submit" class="modal-action-btn">Save</button>
     </form>
 </dialog>

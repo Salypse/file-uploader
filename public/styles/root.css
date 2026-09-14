@@ -7,6 +7,7 @@
 
   /* Borders */
   --color-border: #d5cec3;
+  --color-border-active: #5b5a58;
 
   /* Text */
   --color-text: #242220;
@@ -74,6 +75,11 @@ summary:focus-visible {
 
 summary:hover {
   cursor: pointer;
+}
+
+input {
+  outline: none;
+  border-style: solid;
 }
 
 .dropdown {
@@ -145,14 +151,4 @@ summary:hover {
 #errors-list svg {
   width: 0.8em;
   height: auto;
-}
-
-.modal #errors-list ul li {
-  font-size: 1rem;
-  padding: 0.3rem;
-}
-
-.modal[open] {
-  display: flex;
-  flex-direction: column;
 }
