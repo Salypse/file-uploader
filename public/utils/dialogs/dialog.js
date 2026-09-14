@@ -17,7 +17,7 @@ openModalBtns.forEach((btn) => {
 
 closeModalBtns.forEach((btn) => {
   const dialog = btn.closest("dialog");
-  const dialogErrors = dialog.querySelector("#dialog-errors");
+  const dialogErrors = dialog.querySelector("#errors-list");
 
   btn.addEventListener("click", () => {
     dialog.close();

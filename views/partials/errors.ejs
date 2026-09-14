@@ -1,19 +1,28 @@
 <% if (locals.errors || locals.messages || locals.dialog?.errors) {%>
-    <div id="dialog-errors" role="alert">
+    <div id="errors-list" role="alert">
         <ul>
             <% if (locals.errors) { %>
                 <% errors.forEach((error) => { %>
-                    <li><%= error.msg || error %></li>
+                    <li>
+                      <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-alert"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>
+                      <%= error.msg || error %>
+                    </li>
                 <% }) %>
             <% } %>
             <% if (locals.messages) { %>
                 <% messages.forEach((message) => { %>
-                    <li><%= message %></li>
+                    <li>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-alert"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>
+                      <%= message %>
+                    </li>
                 <% }) %>
             <% } %>
             <% if (locals.dialog?.errors) { %>
                 <% dialog.errors.forEach((error) => { %>
-                    <li><%= error.msg %></li>
+                    <li>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-alert"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>
+                      <%= error.msg %>
+                    </li>
                 <% }) %>
             <% } %>
         </ul>
