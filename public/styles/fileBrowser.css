@@ -19,6 +19,61 @@
   text-align: center;
 }
 
+#browser-options {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  gap: 0.5rem;
+}
+
+#browser-options form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.5rem;
+}
+
+.browser-options-btn {
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  font-weight: bold;
+  color: var(--color-text);
+
+  padding: 0.2rem 0.5rem;
+  cursor: pointer;
+
+  border: 2px solid var(--color-border);
+  border-radius: 1rem;
+}
+
+.browser-options-btn:hover,
+.browser-options-btn:focus-visible {
+  background-color: var(--color-background);
+  transform: scale(1.1);
+}
+
+#browser-options svg {
+  width: 0.9em;
+  height: auto;
+}
+
+#folder-options {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+#upload-files {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
 .browser-section {
   margin-bottom: 1rem;
 }
