@@ -1,41 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="/styles/root.css">
-    <link rel="Stylesheet" href="/styles/navbar.css">
+  <link rel="stylesheet" href="/styles/root.css">
+  <link rel="Stylesheet" href="/styles/navbar.css">
+  <link rel="stylesheet" href="/styles/dialog.css">
+  <link rel="stylesheet" href="/styles/file.css">
 
-    <title><%= file.name %></title>
+  <title><%= file.name %></title>
 </head>
 <body>
-    <%- include("./partials/navbar") %>
-    
-    <main>
-        <a href="<%= locals.file.parentId ? `/folder/${locals.file.parentId}` : "/"%>">Back</a>
+  <%- include("./partials/navbar") %>
+  
+  <main>
+    <a class="back-btn" href="<%= locals.file.parentId ? `/folder/${locals.file.parentId}` : "/"%>">
+      Back
+      <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-undo-2"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5a5.5 5.5 0 0 1-5.5 5.5H11"/></svg>
+    </a>
 
-        <div id="file-info">
-            <strong><%= file.name %></strong>
-            <p>Uploaded On: <%= file.createdAt %></p>
-            <p>File Size: <%= file.fileSize %> </p>
-        </div>
-        <div id="file-options">
-            <form action="/file/download/<%= file.id %>" method="GET">
-              <button type="submit">Download</button>
-            </form>
+    <section id="file">
+      <h1><%= file.name %></h1>
+      <div id="file-info">
+        <p>
+          <strong>Uploaded On:</strong> 
+          <%= file.createdAt %>
+        </p>
+        <p>
+          <strong>File Size:</strong>
+          <%= file.fileSize %> 
+        </p>
+      </div>
+      <div id="file-options">
+        <form action="/file/download/<%= file.id %>" method="GET">
+          <button type="submit" class="file-action" aria-label="download <%= file.name%>">
+            <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-down-to-line"><path d="M12 17V3"/><path d="m6 11 6 6 6-6"/><path d="M19 21H5"/></svg>
+          </button>
+        </form>
 
-            <button 
-                type="button" 
-                data-target="delete-content" 
-                data-content-id="<%= file.id%>" 
-                data-content-name="<%= file.name %>"
-                data-type="file"
-                data-file-path="<%= file.path %>"
-                class="open-modal delete-content-btn"
-            > Delete </button>
-        </div>
-    </main>
+        <button 
+          type="button" 
+          data-target="delete-content" 
+          data-content-id="<%= file.id%>" 
+          data-content-name="<%= file.name %>"
+          data-type="file"
+          data-file-path="<%= file.path %>"
+          class="open-modal delete-content-btn file-action"
+          aria-label="Delete <%= file.name%>"
+        > 
+          <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash"><path d="M10 11v6"/><path d="M14 11v6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+        </button>
+      </div>
+    </section>
+  </main>
 </body>
 
 <script src="/utils/dialogs/dialog.js" defer></script>
