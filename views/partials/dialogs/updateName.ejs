@@ -1,7 +1,7 @@
-<dialog class="modal" id="update-name">
+<dialog class="modal" id="update-name" aria-labelledby="update-name-header">
   <div class="modal-header">
     <h2 id="update-name-header">Rename <%= dialog?.item.type[0].toUpperCase() + dialog?.item.type.slice(1) %></h2>
-    <button class="close-modal">X</button>
+    <button type="button" class="close-modal" aria-label="close">X</button>
   </div>
 
     <% if (locals.dialog?.name === "update-name" && locals.dialog?.errors?.length > 0) {%>
@@ -10,7 +10,7 @@
 
     <form action="/<%= dialog?.item.type %>/<%= dialog?.item.id || ""%>?_method=PATCH" method="POST"  id="update-form">
       <div>
-        <label for="update-mame-input">Name</label>
+        <label for="update-name-input">Name</label>
         <input type="text" id="update-name-input" name="contentName" value="<%= dialog?.item.name || ""%>">
       </div>
 

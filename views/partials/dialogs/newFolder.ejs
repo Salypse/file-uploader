@@ -1,7 +1,7 @@
-<dialog class="modal" id="new-folder">
+<dialog class="modal" id="new-folder" aria-labelledby="new-folder-header">
   <div class="modal-header">
-    <h2>New Folder</h2>
-    <button class="close-modal">X</button>
+    <h2 id="new-folder-header">New Folder</h2>
+    <button type="button" class="close-modal" aria-label="close">X</button>
   </div>
 
   <% if (locals.dialog?.item.type === "folder" && locals.dialog?.name === "new-folder") {%>
