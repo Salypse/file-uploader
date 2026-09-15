@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <link rel="stylesheet" href="/styles/root.css">
-    <link rel="Stylesheet" href="/styles/navbar.css">
+    <link rel="stylesheet" href="/styles/navbar.css">
+    <link rel="stylesheet" href="/styles/errorPage.css">
 
     <title>Error: <%= statusCode %></title>
   </head>
@@ -13,7 +14,7 @@
     <%- include("./partials/navbar") %>
 
     <main>
-      <section>
+      <section id="error-info">
         <h1><%= statusCode %></h1>
         <p><%= message %></p>
         <a href="/">Return to Homepage</a>
