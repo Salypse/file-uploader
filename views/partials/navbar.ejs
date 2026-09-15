@@ -10,11 +10,11 @@
                 <summary class="user-icon link" aria-label="Open user options"><%= user.username[0].toUpperCase() %></summary>
                 <div class="dropdown-content">
                     <p><%= user.username %></p>
-                    <a href="/login/log-out">Log out</a>
+                    <a href="/login/log-out" class="nav-link">Log out</a>
                 </div>
             </details>
         <% } else { %>
-            <a href="/login">Login</a> 
+            <a href="/login" class="nav-link">Login</a> 
         <% } %>
     </div>
 </nav>

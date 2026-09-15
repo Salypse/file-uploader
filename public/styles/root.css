@@ -82,39 +82,28 @@ input {
   border-style: solid;
 }
 
-.dropdown {
+.nav-link {
   position: relative;
 }
 
-.dropdown-content {
+.nav-link::before {
+  content: "";
   position: absolute;
-  top: calc(100% + 0.25rem);
-  right: 0;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.3rem;
-
-  border: 2px solid var(--color-border);
-  border-radius: 0.25;
-  background-color: var(--color-surface);
-  padding: 0.5rem;
-
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.716);
-
-  opacity: 0;
-  pointer-events: none;
-  transform: translateY(-10px);
-  transition:
-    opacity 300ms ease-in-out,
-    transform 300ms ease-in-out;
+  width: 100%;
+  height: 1px;
+  border-radius: 1px;
+  background-color: currentColor;
+  bottom: -0.1rem;
+  left: 0;
+  transform-origin: right;
+  transform: scaleX(0);
+  transition: transform 0.2s ease-in-out;
 }
 
-.dropdown[open] .dropdown-content {
-  transform: translateY(0);
-  pointer-events: all;
-  opacity: 1;
+.nav-link:hover::before,
+.nav-link:focus-visible::before {
+  transform-origin: left;
+  transform: scaleX(1);
 }
 
 #errors-list {
