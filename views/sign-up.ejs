@@ -6,6 +6,7 @@
 
     <link rel="stylesheet" href="/styles/root.css">
     <link rel="Stylesheet" href="/styles/navbar.css">
+    <link rel="stylesheet" href="/styles/userAuth.css">
 
     <title>Sign Up</title>
   </head>
@@ -15,18 +16,26 @@
     <main>
       <%- include("partials/errors") %>
 
-      <form action="/sign-up" method="POST">
-        <label for="username">Email</label>
-        <input type="email" id="username" name="username" />
+      <div id="auth-form">
+        <form action="/sign-up" method="POST">
+          <div class="form-input">
+            <label for="username">Email</label>
+            <input type="email" id="username" name="username" />
+          </div>
 
-        <label for="password">Password</label>
-        <input type="password" id="password" name="password" />
+          <div class="form-input">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" />
+          </div>
 
-        <label for="confirm-password">Confirm Password</label>
-        <input type="password" id="confirm-password" name="confirmPassword" />
+          <div class="form-input">
+            <label for="confirm-password">Confirm Password</label>
+            <input type="password" id="confirm-password" name="confirmPassword" />
+          </div>
 
-        <button type="submit">Sign Up</button>
-      </form>
+          <button type="submit">Sign Up</button>
+        </form>
+      </div>
     </main>
   </body>
 </html>
