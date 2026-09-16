@@ -1,51 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="/styles/root.css">
-    <link rel="Stylesheet" href="/styles/navbar.css">
+  <link rel="stylesheet" href="/styles/root.css">
+  <link rel="Stylesheet" href="/styles/navbar.css">
+  <link rel="stylesheet" href="/styles/shareForm.css">
 
-    <title>Share</title>
-    <script src="/utils/shareForm.js" defer></script>
+  <title>Share</title>
+  <script src="/utils/shareForm.js" defer></script>
 </head>
 <body>
-    <%- include("./partials/navbar") %>
+  <%- include("./partials/navbar") %>
 
-    <main>
-        <a href="<%= locals.folderId ? `/folder/${folderId}` : "/"%>">Back</a>
+  <main>
+    <a class="back-btn nav-link" href="<%= locals.folderId ? `/folder/${folderId}` : "/"%>">
+      Back
+      <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-undo-2"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5a5.5 5.5 0 0 1-5.5 5.5H11"/></svg>
+    </a>
 
-        <% if (locals.share) {%>
-            <h1>Link Generated</h1>
-            <p>Anyone with this link can view the contents</p>
+    <% if (locals.share) {%>
+      <div class="share-form">
+        <div class="share-info">
+          <h1>Link Generated</h1>
+          <p>Anyone with this link can view the contents</p>
+        </div>
 
-            <div id="link-copy">
-                <output id="share-link"><%= share.link %></output>
+        <div id="link-copy">
+          <input id="share-link" type="text" readonly value="<%= share.link %>"></input>
 
-                <%# Add css copy validation%>
-                <button onClick="copyLink()">Copy Link</button>
-            </div>
+          <button id="link-copy-btn" onClick="copyLink()">Copy Link</button>
+        </div>
 
-            <strong>Expires: <%= share.expires %></strong>
+        <strong>Expires: <%= share.expires %></strong>
+      </div>
+    <% } else {%>
+      <div class="share-form">
+        <div class="share-info">
+          <h1>Share <%= locals.folder ? folder.name : "Root" %> Contents</h1>
+          <p>Everything inside this folder will be accessible via the generated link.</p>
+          <p>This includes all files and folders.</p>
+        </div>
 
-        <% } else {%>
-            <h1>Share <%= locals.folder ? folder.name : "Root" %> Contents</h1>
-            <p>Everything inside this folder will be assessible via the generate link. This includes all files and sub folders. </p>
+        <form action="/share" method="POST">
+          <input type="hidden" name="folderId" value="<%= locals.folder ? folder.id : "" %>">
 
-            <form action="/share" method="POST">
-                <input type="hidden" name="folderId" value="<%= locals.folder ? folder.id : "" %>"">
+          <div>
+            <label for="expires-choice">Expires In: </label>
+            <select id="expires-choice" name="expiresChoice" required>
+              <option value="" disabled selected>Choose Expiration</option>
+              <option value="1">1 Day</option>
+              <option value="3">3 Days</option>
+              <option value="7">7 Days</option>
+            </select>
+          </div>
 
-                <label for="expires-choice">Link expiration: </label>
-                <select id="expires-choice" name="expiresChoice">
-                    <option value="1">1 Day</option>
-                    <option value="3">3 Days</option>
-                    <option value="7">7 Days</option>
-                </select>
-
-                <button type="submit">Generate Link</button>
-            </form>
-        <% } %>
-    </main>
+          <button type="submit">Generate Link</button>
+        </form>
+      </div>
+    <% } %>
+  </main>
 </body>
 </html>

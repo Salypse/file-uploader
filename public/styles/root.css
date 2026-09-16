@@ -82,6 +82,10 @@ input {
   border-style: solid;
 }
 
+select {
+  cursor: pointer;
+}
+
 .nav-link {
   position: relative;
 }

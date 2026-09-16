@@ -1,0 +1,149 @@
+main {
+  align-items: flex-start;
+}
+
+.back-btn {
+  display: flex;
+  align-items: center;
+  line-height: 100%;
+
+  color: var(--color-text);
+  font-size: clamp(1.1rem, 3vw, 1.3rem);
+
+  margin: 0.5rem 1rem;
+  gap: 0.2rem;
+}
+
+.back-btn svg {
+  width: 0.8em;
+  height: auto;
+}
+
+.share-form {
+  margin: 2rem auto;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.share-info {
+  text-align: center;
+}
+
+.share-info h1 {
+  color: var(--color-text);
+  font-size: clamp(2rem, 5vw, 2.2rem);
+}
+
+.share-info p {
+  padding: 0 0.5rem;
+  color: var(--color-text-muted);
+  font-weight: bold;
+  font-size: clamp(1rem, 3vw, 1.2rem);
+  text-align: center;
+}
+
+.share-form strong {
+  color: var(--color-text);
+}
+
+.share-form form {
+  margin-top: 1.5rem;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.share-form form select {
+  background-color: var(--color-surface);
+  padding: 0.3rem 0.8rem;
+  border: 3px solid var(--color-border);
+  color: var(--color-text);
+  font-size: clamp(0.8rem, 2vw, 1rem);
+}
+
+.share-form form select:hover {
+  background-color: var(--color-background);
+}
+
+.share-form form select:focus-visible {
+  outline: none;
+  border-color: var(--color-border-active);
+}
+
+.share-form form,
+.share-form form button {
+  color: var(--color-text);
+  font-weight: bold;
+  font-size: clamp(0.8rem, 2vw, 1rem);
+}
+.share-form form button {
+  border: 3px solid var(--color-border);
+  border-radius: 1rem;
+  background-color: var(--color-surface);
+
+  padding: 0.3rem 0.8rem;
+
+  transition:
+    transform 150ms ease-in,
+    background-color 150ms ease-in,
+    color 150ms ease-in;
+}
+
+.share-form form button:hover,
+.share-form form button:focus-visible {
+  transform: scale(1.1);
+  background-color: transparent;
+  color: var(--color-text-muted);
+  border-color: var(--color-border-active);
+}
+
+.share-form form button:active {
+  transform: translateY(3px);
+}
+
+#link-copy {
+  display: flex;
+}
+
+#link-copy input,
+#link-copy button {
+  border: 3px solid var(--color-border);
+
+  padding: 0.2rem 0.3rem;
+  margin: 0.6rem 0;
+
+  color: var(--color-text);
+  font-size: clamp(1rem, 2vw, 1.1rem);
+}
+
+#link-copy input {
+  border-radius: 0.5rem 0 0 0.5rem;
+  border-right: none;
+}
+
+#link-copy button {
+  min-width: 7rem;
+  border-radius: 0 0.5rem 0.5rem 0;
+  background-color: var(--color-border);
+  font-weight: bold;
+
+  transition:
+    border-color 150ms ease-in,
+    background-color 150ms ease-in;
+}
+
+#link-copy button:hover,
+#link-copy button:focus-visible {
+  border-color: var(--color-border-active);
+  background-color: var(--color-background);
+}
+
+@media (min-width: 800px) {
+  .share-form form {
+    flex-direction: row;
+  }
+}
