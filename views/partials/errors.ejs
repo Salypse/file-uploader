@@ -1,4 +1,4 @@
-<% if (locals.errors || locals.messages || locals.dialog?.errors) {%>
+<% if (locals.errors?.length || locals.messages?.length || locals.dialog?.errors?.length) {%>
     <div id="errors-list" role="alert">
         <ul>
             <% if (locals.errors) { %>

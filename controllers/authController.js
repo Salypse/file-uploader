@@ -7,8 +7,7 @@ module.exports = {
 
   getLoginPage(req, res, next) {
     const failureMessages = req.session.messages || [];
-    //Clear failure messages on each get request
-    req.session.messages = [];
+    delete req.session.messages;
 
     res.render("login", { messages: failureMessages });
   },
@@ -44,6 +43,7 @@ module.exports = {
           password: hashedPassword,
         },
       });
+
       res.redirect("/login");
     } catch (error) {
       return next(error);

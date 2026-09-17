@@ -78,3 +78,7 @@
 #auth-form form button:active {
   transform: translateY(3px);
 }
+
+main:has(#errors-list) #auth-form {
+  margin-top: 1rem;
+}

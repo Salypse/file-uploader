@@ -14,11 +14,22 @@ loginRouter.post(
   validateLogin,
   validateLoginForm,
   passport.authenticate("local", {
-    failureRedirect: "/login",
     successRedirect: "/",
+    failWithError: true,
     failureMessage: true,
   }),
 );
+
+// Save req.session.messages on passport error
+loginRouter.use((err, req, res, next) => {
+  if (err.status === 401) {
+    return req.session.save((saveErr) => {
+      if (saveErr) return next(saveErr);
+
+      res.redirect("/login");
+    });
+  }
+});
 
 loginRouter.get("/log-out", isAuth, authController.logOut);
 
