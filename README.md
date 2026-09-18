@@ -1,6 +1,6 @@
 # File Manager
 
-**Live Preview:**
+**Live Preview:** https://file-uploader-id2i.onrender.com/
 
 A full-stack file manager application where users can upload files and organize them into folders. Users can also share their folders with others, regardless of whether they have an account.
 
