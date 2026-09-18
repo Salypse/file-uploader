@@ -10,6 +10,7 @@
 
 #folder-header h1 {
   font-size: inherit;
+  overflow-wrap: anywhere;
 }
 
 #folder-header-options {

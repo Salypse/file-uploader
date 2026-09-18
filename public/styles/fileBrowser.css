@@ -88,6 +88,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 0.3rem;
+  gap: 0.2rem;
 
   font-size: clamp(1rem, 3vw, 1.2rem);
 
@@ -97,7 +98,10 @@
 .item a {
   flex: 1;
   display: flex;
+  flex-direction: row;
   align-items: center;
+  overflow-wrap: anywhere;
+
   gap: 0.2rem;
 }
 
