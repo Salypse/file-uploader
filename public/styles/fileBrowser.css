@@ -97,6 +97,9 @@
 
 .item a {
   flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
 }
 
 .item:hover {
