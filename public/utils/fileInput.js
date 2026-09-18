@@ -6,9 +6,5 @@ fileInput.addEventListener("change", (event) => {
 
   if (files.length === 0) return;
 
-  if (files && files.length > 1) {
-    fileInputLabel.textContent = `${files.length} files selected`;
-  } else {
-    fileInputLabel.textContent = files[0].name;
-  }
+  fileInputLabel.textContent = `${files.length} File(s) Selected.`;
 });

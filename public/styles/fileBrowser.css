@@ -14,7 +14,7 @@
   border-radius: 1rem;
 }
 
-.browser strong {
+#no-content {
   font-size: clamp(1.2rem, 4vw, 1.5rem);
   text-align: center;
 }
@@ -39,6 +39,7 @@
 .browser-options-btn {
   font-size: clamp(1rem, 2vw, 1.25rem);
   font-weight: bold;
+  font-family: "Courier New", Courier, monospace;
   color: var(--color-text);
 
   padding: 0.2rem 0.5rem;
